@@ -1,0 +1,15 @@
+flowchart TB
+  subgraph F["Frontend (navegador)"]
+    V["Vistas: resumen, ventas,<br/>clientes, proveedores, productos"] --> UI["ui.js<br/>formulario, confirmación, avisos"]
+    V --> API["api.js (fetch)"]
+    VAL1["validaciones.js<br/>(compartido)"]
+    UI --> VAL1
+  end
+  subgraph B["Backend (Node.js)"]
+    R["router.js + app.js<br/>API REST /api"] --> S["servicios<br/>reglas de negocio"]
+    S --> VAL2["validaciones.js<br/>calculos.js"]
+    S --> RP["repositorios<br/>SQL parametrizado"]
+  end
+  DB[("SQLite<br/>tienda.db")]
+  API -- "JSON / HTTP" --> R
+  RP --> DB

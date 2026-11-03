@@ -1,0 +1,51 @@
+erDiagram
+  PROVEEDORES ||--o{ PRODUCTOS : abastece
+  CLIENTES |o--o{ VENTAS : compra
+  VENTAS ||--|{ VENTA_DETALLE : contiene
+  PRODUCTOS ||--o{ VENTA_DETALLE : aparece_en
+  CLIENTES {
+    int id PK
+    text tipo_documento "DNI o RUC"
+    text numero_documento UK
+    text nombre
+    text email
+    text telefono
+    text direccion
+  }
+  PROVEEDORES {
+    int id PK
+    text ruc UK
+    text razon_social
+    text contacto
+    text telefono
+    text email
+  }
+  PRODUCTOS {
+    int id PK
+    text codigo UK
+    text nombre
+    text categoria
+    int precio_centimos
+    int stock
+    int stock_minimo
+    int proveedor_id FK
+  }
+  VENTAS {
+    int id PK
+    text tipo_comprobante "BOLETA o FACTURA"
+    text serie
+    int correlativo
+    int cliente_id FK
+    int subtotal_centimos
+    int igv_centimos
+    int total_centimos
+    text estado "EMITIDA o ANULADA"
+  }
+  VENTA_DETALLE {
+    int id PK
+    int venta_id FK
+    int producto_id FK
+    int cantidad
+    int precio_unitario_centimos
+    int importe_centimos
+  }

@@ -1,0 +1,23 @@
+flowchart TD
+  I(["inicio registrar(datos)"]) --> D1{"D1 ¿tipo válido?"}
+  D1 -- no --> E1["422 tipo"]
+  D1 -- sí --> D2{"D2 ¿items no vacíos?"}
+  D2 -- no --> E2["422 items"]
+  D2 -- sí --> D3{"D3 ¿cada línea válida?"}
+  D3 -- no --> E3["422 línea n"]
+  D3 -- sí --> D4{"D4 ¿se indicó cliente?"}
+  D4 -- sí --> D5{"D5 ¿cliente existe?"}
+  D5 -- no --> E4["422 cliente"]
+  D4 -- no --> D6
+  D5 -- sí --> D6{"D6 ¿producto existe?"}
+  D6 -- no --> E5["422 producto"]
+  D6 -- sí --> D7{"D7 ¿stock suficiente?"}
+  D7 -- no --> E6["409 stock"]
+  D7 -- sí --> D8{"D8 ¿factura sin RUC?"}
+  D8 -- sí --> E7["422 factura"]
+  D8 -- no --> D9{"D9 ¿boleta &gt; S/ 700 sin cliente?"}
+  D9 -- sí --> E8["422 boleta"]
+  D9 -- no --> T["BEGIN transacción<br/>insertar cabecera"]
+  T --> D10{"D10 ¿descontó stock?"}
+  D10 -- no --> E9["ROLLBACK · 409"]
+  D10 -- sí --> OK["COMMIT · 201 venta"]

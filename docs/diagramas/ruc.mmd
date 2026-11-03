@@ -1,0 +1,15 @@
+flowchart TD
+  N1(["1 inicio: ruc = aTexto(valor)"]) --> D1{"D1 ¿ruc vacío?"}
+  D1 -- sí --> C1["2 return 'obligatorio'"]
+  D1 -- no --> D2{"D2 ¿no son 11 dígitos?"}
+  D2 -- sí --> C2["3 return '11 dígitos'"]
+  D2 -- no --> D3{"D3 ¿prefijo no permitido?"}
+  D3 -- sí --> C3["4 return 'prefijo'"]
+  D3 -- no --> D4{"D4 ¿dígito verificador distinto?"}
+  D4 -- sí --> C4["5 return 'dígito'"]
+  D4 -- no --> C5["6 return null (válido)"]
+  C1 --> FIN(["7 fin"])
+  C2 --> FIN
+  C3 --> FIN
+  C4 --> FIN
+  C5 --> FIN
