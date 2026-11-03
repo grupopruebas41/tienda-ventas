@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>El Mantaro · Ventas</title>
+    <meta name="description" content="Sistema de ventas de Distribuidora El Mantaro S.A.C." />
+    <link rel="icon" href="/img/icono.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600&display=swap"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <!-- Mismas reglas de validación que usa el servidor -->
+    <script src="/shared/validaciones.js" defer></script>
+    <script type="module" src="/js/app.js"></script>
+  </head>
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+    <div class="marco">
+      <aside class="lateral" aria-label="Navegación principal">
+        <div class="tejido" aria-hidden="true"></div>
+        <div class="marca">
+          <span class="marca__nombre">El Mantaro</span>
+          <span class="marca__sub">Distribuidora · Huancayo</span>
+        </div>
+        <nav>
+          <ul class="menu" id="menu">
+            <li><a href="#/resumen" data-vista="resumen">Resumen</a></li>
+            <li><a href="#/ventas" data-vista="ventas">Ventas</a></li>
+            <li><a href="#/productos" data-vista="productos">Productos</a></li>
+            <li><a href="#/clientes" data-vista="clientes">Clientes</a></li>
+            <li><a href="#/proveedores" data-vista="proveedores">Proveedores</a></li>
+          </ul>
+        </nav>
+        <p class="lateral__pie">RUC 20609876540</p>
+      </aside>
+
+      <main id="contenido" class="contenido" tabindex="-1">
+        <p class="cargando">Cargando…</p>
+      </main>
+    </div>
+
+    <!-- Formulario modal reutilizable (crear / editar) -->
+    <dialog id="dialogo-form" class="dialogo" aria-labelledby="dialogo-form-titulo">
+      <form id="form-entidad" method="dialog" novalidate>
+        <header class="dialogo__cabecera">
+          <h2 id="dialogo-form-titulo">Registro</h2>
+          <button type="button" class="boton-icono" data-cerrar aria-label="Cerrar">✕</button>
+        </header>
+        <div class="dialogo__cuerpo" id="form-campos"></div>
+        <p class="form-error-general" id="form-error-general" role="alert" hidden></p>
+        <footer class="dialogo__pie">
+          <button type="button" class="boton boton--secundario" data-cerrar>Cancelar</button>
+          <button type="submit" class="boton boton--primario" id="form-enviar">Guardar</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <!-- Confirmación de eliminación -->
+    <dialog id="dialogo-confirmar" class="dialogo dialogo--pequeno" aria-labelledby="confirmar-titulo">
+      <div class="dialogo__cuerpo">
+        <h2 id="confirmar-titulo">¿Eliminar?</h2>
+        <p id="confirmar-texto"></p>
+      </div>
+      <footer class="dialogo__pie">
+        <button type="button" class="boton boton--secundario" id="confirmar-cancelar">Cancelar</button>
+        <button type="button" class="boton boton--peligro" id="confirmar-aceptar">Eliminar</button>
+      </footer>
+    </dialog>
+
+    <!-- Detalle / registro de venta -->
+    <dialog id="dialogo-venta" class="dialogo dialogo--ancho" aria-labelledby="venta-titulo"></dialog>
+
+    <div class="avisos" id="avisos" role="status" aria-live="polite"></div>
+  </body>
+</html>
