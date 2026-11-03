@@ -1,0 +1,33 @@
+{
+  "name": "tienda-ventas-el-mantaro",
+  "version": "1.0.0",
+  "description": "Sistema web de ventas (clientes, proveedores, productos y ventas) con pruebas de caja negra, caja blanca y unitarias. PA3 Pruebas y Calidad de Software.",
+  "main": "src/server.js",
+  "private": true,
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch src/server.js",
+    "reset-db": "node --disable-warning=ExperimentalWarning scripts/reset-db.js",
+    "test": "node --disable-warning=ExperimentalWarning --test --test-reporter=spec \"tests/unitarias/*.test.js\" \"tests/caja-blanca/*.test.js\" \"tests/caja-negra/*.test.js\"",
+    "test:unitarias": "node --disable-warning=ExperimentalWarning --test --test-reporter=spec \"tests/unitarias/*.test.js\"",
+    "test:caja-blanca": "node --disable-warning=ExperimentalWarning --test --test-reporter=spec \"tests/caja-blanca/*.test.js\"",
+    "test:caja-negra": "node --disable-warning=ExperimentalWarning --test --test-reporter=spec \"tests/caja-negra/*.test.js\"",
+    "test:cobertura": "node --disable-warning=ExperimentalWarning --test --experimental-test-coverage --test-coverage-exclude=\"tests/**\" --test-reporter=spec \"tests/unitarias/*.test.js\" \"tests/caja-blanca/*.test.js\" \"tests/caja-negra/*.test.js\"",
+    "test:e2e": "node --disable-warning=ExperimentalWarning --test --test-concurrency=1 --test-reporter=spec \"tests/e2e/*.test.js\""
+  },
+  "keywords": [
+    "pruebas",
+    "caja-negra",
+    "caja-blanca",
+    "pruebas-unitarias",
+    "node-test",
+    "sqlite"
+  ],
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "playwright": "^1.48.0"
+  }
+}
