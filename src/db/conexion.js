@@ -10,6 +10,12 @@ function leerScript(nombre) {
   return fs.readFileSync(path.join(CARPETA_BD, nombre), 'utf8');
 }
 
+/** Minúsculas y sin tildes: "Ñaupari Núñez" → "naupari nunez" (DEF-05). */
+function normalizarTexto(texto) {
+  if (texto === null || texto === undefined) return null;
+  return String(texto).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+
 function tieneTablas(db) {
   const fila = db
     .prepare("SELECT COUNT(*) AS total FROM sqlite_master WHERE type = 'table' AND name = 'clientes'")
@@ -29,6 +35,8 @@ function abrirBaseDatos({ archivo = ':memory:', datosDemo = true } = {}) {
   }
   const db = new DatabaseSync(archivo);
   db.exec('PRAGMA foreign_keys = ON;');
+  // Función SQL para búsquedas sin distinguir mayúsculas ni tildes (DEF-05)
+  db.function('normalizar', { deterministic: true }, normalizarTexto);
   if (archivo !== ':memory:') db.exec('PRAGMA journal_mode = WAL;');
 
   if (!tieneTablas(db)) {
@@ -51,4 +59,4 @@ function enTransaccion(db, fn) {
   }
 }
 
-module.exports = { abrirBaseDatos, enTransaccion };
+module.exports = { abrirBaseDatos, enTransaccion, normalizarTexto };

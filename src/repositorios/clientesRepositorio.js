@@ -11,7 +11,7 @@ function crearClientesRepositorio(db) {
           db
             .prepare(
               `SELECT * FROM clientes
-               WHERE nombre LIKE ? ESCAPE '\\' OR numero_documento LIKE ? ESCAPE '\\' OR email LIKE ? ESCAPE '\\'
+               WHERE normalizar(nombre) LIKE ? ESCAPE '\\' OR normalizar(numero_documento) LIKE ? ESCAPE '\\' OR normalizar(email) LIKE ? ESCAPE '\\'
                ORDER BY nombre`
             )
             .all(patronBusqueda(busqueda), patronBusqueda(busqueda), patronBusqueda(busqueda))
