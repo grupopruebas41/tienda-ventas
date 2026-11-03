@@ -50,9 +50,9 @@ Para usar otro puerto: `PUERTO=4000 npm start` (en Windows PowerShell: `$env:PUE
 ## Cómo ejecutar las pruebas
 
 ```bash
-npm test                  # unitarias + caja blanca + caja negra (160 casos)
+npm test                  # unitarias + caja blanca + caja negra (184 casos)
 npm run test:unitarias    # 58 casos (incluye 18 de contraste de colores)
-npm run test:caja-blanca  # 35 casos
+npm run test:caja-blanca  # 59 casos
 npm run test:caja-negra   # 67 casos
 npm run test:cobertura    # todo lo anterior + reporte de cobertura de código
 
@@ -101,7 +101,7 @@ tienda-ventas/
 │   ├── app.js                # Rutas de la API y manejo de errores
 │   ├── shared/validaciones.js# Reglas compartidas por backend y frontend (DNI, RUC, precio…)
 │   ├── dominio/calculos.js   # IGV, totales, número de comprobante
-│   ├── servicios/            # Reglas de negocio
+│   ├── servicios/            # Reglas de negocio (crudServicio.js: esquema CRUD común)
 │   ├── repositorios/         # SQL parametrizado
 │   ├── http/                 # Router, JSON, archivos estáticos
 │   └── db/conexion.js        # Conexión SQLite y transacciones
