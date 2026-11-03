@@ -123,8 +123,10 @@
 
   function validarPrecio(valor) {
     if (estaVacio(valor)) return 'El precio es obligatorio.';
-    const precio = Number(valor);
-    if (!Number.isFinite(precio)) return 'El precio debe ser un número.';
+    const texto = aTexto(valor);
+    // DEF-07: solo formato decimal simple (rechaza 1e2, 0x10, 1,50, etc.)
+    if (!/^-?\d+(\.\d+)?$/.test(texto)) return 'El precio debe ser un número, por ejemplo 12.50.';
+    const precio = Number(texto);
     if (precio < LIMITES.PRECIO_MIN) return 'El precio debe ser mayor que S/ 0.00.';
     if (precio > LIMITES.PRECIO_MAX) return 'El precio no puede superar S/ 99,999.99.';
     if (contarDecimales(aTexto(valor)) > 2) return 'El precio admite como máximo 2 decimales.';
@@ -133,8 +135,9 @@
 
   function validarEntero(valor, etiqueta, min, max) {
     if (estaVacio(valor)) return `${etiqueta} es obligatorio.`;
-    const numero = Number(valor);
-    if (!Number.isInteger(numero)) return `${etiqueta} debe ser un número entero.`;
+    // DEF-08: solo dígitos (rechaza 0x10, 1e3, 2.5)
+    if (!/^-?\d+$/.test(aTexto(valor))) return `${etiqueta} debe ser un número entero.`;
+    const numero = Number(aTexto(valor));
     if (numero < min) return `${etiqueta} no puede ser menor que ${min}.`;
     if (numero > max) return `${etiqueta} no puede ser mayor que ${max}.`;
     return null;

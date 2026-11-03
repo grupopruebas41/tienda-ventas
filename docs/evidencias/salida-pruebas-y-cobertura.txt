@@ -1,0 +1,249 @@
+▶ Caja blanca: calcularTotales
+  ✔ CB-CAL-01 rama "no es arreglo o está vacío" devuelve ceros (1.587622ms)
+  ✔ CB-CAL-02 rama normal: el bucle recorre todas las líneas (0.173106ms)
+✔ Caja blanca: calcularTotales (2.883642ms)
+▶ Caja blanca: validarProducto — ramas de código y proveedor
+  ✔ CB-PRO-01 código vacío / formato incorrecto / correcto (0.80029ms)
+  ✔ CB-PRO-02 proveedor vacío / no entero / válido (0.157651ms)
+✔ Caja blanca: validarProducto — ramas de código y proveedor (1.163337ms)
+▶ Caja blanca: utilidades de datos
+  ✔ CB-BD-01 patronBusqueda escapa % y _ (rama con comodines) y envuelve en % (0.253291ms)
+  ✔ CB-BD-03 normalizarTexto: rama null y rama de texto con tildes/ñ (regresión DEF-05) (0.212216ms)
+  ✔ CB-BD-02 enTransaccion: rama COMMIT guarda y rama ROLLBACK revierte (1.962835ms)
+✔ Caja blanca: utilidades de datos (2.594976ms)
+▶ Caja blanca: leerJson — ramas del cuerpo HTTP
+  ✔ CB-HTTP-01 cuerpo vacío devuelve objeto vacío (2.822911ms)
+  ✔ CB-HTTP-02 Content-Type distinto de JSON → 415 (3.361428ms)
+  ✔ CB-HTTP-03 JSON mal formado → 400 (0.74146ms)
+  ✔ CB-HTTP-04 JSON válido pero no objeto (arreglo o null) → 400 (0.977618ms)
+  ✔ CB-HTTP-05 JSON objeto válido se devuelve tal cual (0.423934ms)
+✔ Caja blanca: leerJson — ramas del cuerpo HTTP (8.673782ms)
+▶ Caja blanca: registrar() — 11 caminos independientes
+  ✔ CB-VEN-01 camino 1: D1 falso → tipo inválido (422) (4.066102ms)
+  ✔ CB-VEN-02 camino 2: D2 falso → sin items (422) (2.354807ms)
+  ✔ CB-VEN-03 camino 3: D3 falso → cantidad 0 en la línea 2 (422) (1.445447ms)
+  ✔ CB-VEN-04 camino 4: D4 verdadero, D5 falso → cliente inexistente (422) (1.233605ms)
+  ✔ CB-VEN-05 camino 5: D6 falso → producto inexistente (422) (1.665342ms)
+  ✔ CB-VEN-06 camino 6: D7 falso → stock insuficiente (409) y el stock no cambia (1.314543ms)
+  ✔ CB-VEN-07 camino 7: D8 verdadero → factura con cliente DNI (422) (1.363993ms)
+  ✔ CB-VEN-08 camino 8: D9 verdadero → boleta de S/ 760.50 sin cliente (422) (1.214768ms)
+  ✔ CB-VEN-09 camino 9: D10 falso → el stock cambió dentro de la transacción (409, rollback) (2.118047ms)
+  ✔ CB-VEN-10 camino 10: D4 falso y todo válido → boleta sin cliente registrada (2.009006ms)
+  ✔ CB-VEN-11 camino 11: D4, D5 verdaderos, D8 falso → factura con RUC registrada (2.456769ms)
+✔ Caja blanca: registrar() — 11 caminos independientes (23.030863ms)
+▶ Caja blanca: cobertura de condiciones en las reglas del comprobante
+  ✔ CB-VEN-12 factura SIN cliente (condición !cliente verdadera) (1.270158ms)
+  ✔ CB-VEN-13 boleta de exactamente S/ 700.00 sin cliente es válida (condición total > 700 falsa) (1.531823ms)
+  ✔ CB-VEN-14 boleta de S/ 700.01 CON cliente es válida (condición !cliente falsa) (1.391526ms)
+✔ Caja blanca: cobertura de condiciones en las reglas del comprobante (4.374334ms)
+▶ Caja blanca: anular()
+  ✔ CB-VEN-15 rama "ya anulada" (409) y rama normal que repone el stock (1.927682ms)
+✔ Caja blanca: anular() (2.054901ms)
+▶ Caja blanca: validarRuc — caminos independientes
+  ✔ CB-RUC-01 camino 1: D1 verdadero (vacío / null) (1.286553ms)
+  ✔ CB-RUC-02 camino 2: D1 falso, D2 verdadero (no son 11 dígitos) (0.469918ms)
+  ✔ CB-RUC-03 camino 3: D3 verdadero (prefijo 30 no permitido) (0.158411ms)
+  ✔ CB-RUC-04 camino 4: D4 verdadero (dígito verificador incorrecto) (0.417555ms)
+  ✔ CB-RUC-05 camino 5: todas las decisiones falsas → válido (0.150848ms)
+✔ Caja blanca: validarRuc — caminos independientes (5.536989ms)
+▶ Caja blanca: calcularDigitoRuc — ramas del resto
+  ✔ CB-RUC-06 rama C1: resto 10 se convierte en dígito 0 (0.207079ms)
+  ✔ CB-RUC-07 rama C2: resto 11 se convierte en dígito 1 (0.131261ms)
+  ✔ CB-RUC-08 rama C3: resto normal (1..9) se devuelve tal cual (0.173121ms)
+✔ Caja blanca: calcularDigitoRuc — ramas del resto (0.709199ms)
+▶ Caja negra: registrar cliente — partición de equivalencia del DNI
+  ✔ CN-CLI-01 CV1 8 dígitos → 201 (64.117277ms)
+  ✔ CN-CLI-02 CI1 vacío → 422 (4.619225ms)
+  ✔ CN-CLI-03 CI2 7 dígitos (límite inferior − 1) → 422 (2.970242ms)
+  ✔ CN-CLI-04 CI3 9 dígitos (límite superior + 1) → 422 (3.128937ms)
+  ✔ CN-CLI-05 CI4 contiene la letra O → 422 (2.83085ms)
+✔ Caja negra: registrar cliente — partición de equivalencia del DNI (78.921372ms)
+▶ Caja negra: registrar cliente — valores límite del nombre (3 a 100 caracteres)
+  ✔ CN-CLI-06 nombre de 2 caracteres → 422 (4.912981ms)
+  ✔ CN-CLI-07 nombre de 3 caracteres → 201 (3.041384ms)
+  ✔ CN-CLI-08 nombre de 100 caracteres → 201 (2.692001ms)
+  ✔ CN-CLI-09 nombre de 101 caracteres → 422 (2.688435ms)
+✔ Caja negra: registrar cliente — valores límite del nombre (3 a 100 caracteres) (13.99513ms)
+▶ Caja negra: reglas de clientes
+  ✔ CN-CLI-10 cliente con RUC válido se registra; con RUC de dígito incorrecto no (5.89192ms)
+  ✔ CN-CLI-11 documento duplicado → 409 con mensaje en el campo (4.88624ms)
+  ✔ CN-CLI-12 tipo de documento fuera de la lista → 422 (2.598654ms)
+  ✔ CN-CLI-13 correo y teléfono opcionales: se aceptan vacíos y se rechazan mal escritos (5.246247ms)
+✔ Caja negra: reglas de clientes (18.969642ms)
+▶ Caja negra: ciclo CRUD completo de un cliente
+  ✔ CN-CLI-14 crear → listar → buscar → editar → eliminar → ya no existe (16.966077ms)
+  ✔ CN-CLI-15 eliminar un cliente que tiene ventas → 409 y sigue existiendo (3.140468ms)
+  ✔ CN-CLI-17 regresión DEF-05: la búsqueda ignora mayúsculas y tildes (10.005117ms)
+  ✔ CN-CLI-16 editar o eliminar un id inexistente → 404 (3.802168ms)
+✔ Caja negra: ciclo CRUD completo de un cliente (34.232529ms)
+▶ Caja negra: manejo de peticiones incorrectas
+  ✔ CN-HTTP-01 JSON mal formado → 400 con mensaje claro (52.389357ms)
+  ✔ CN-HTTP-02 ruta inexistente → 404; método no permitido → 405 (8.307825ms)
+  ✔ CN-HTTP-03 id no numérico → 400 (2.342533ms)
+  ✔ CN-HTTP-04 cuerpo mayor a 100 KB → 413 (3.690313ms)
+✔ Caja negra: manejo de peticiones incorrectas (67.869478ms)
+▶ Caja negra: seguridad
+  ✔ CN-SEG-01 inyección SQL en la búsqueda no altera datos (8.455421ms)
+  ✔ CN-SEG-02 los comodines % y _ se buscan como texto literal (2.939853ms)
+  ✔ CN-SEG-03 respuestas incluyen cabeceras de seguridad (2.660287ms)
+  ✔ CN-SEG-04 no se puede leer archivos fuera de /public (path traversal) (3.309934ms)
+  ✔ CN-SEG-05 el frontend y el validador compartido se sirven correctamente (5.273091ms)
+✔ Caja negra: seguridad (23.042761ms)
+▶ Caja negra: RUC del proveedor — particiones de equivalencia
+  ✔ CN-PRV-01 CV válido (prefijo 20, dígito correcto) → 201 (52.439726ms)
+  ✔ CN-PRV-02 CI 10 dígitos → 422 (4.790345ms)
+  ✔ CN-PRV-03 CI 12 dígitos → 422 (2.798545ms)
+  ✔ CN-PRV-04 CI prefijo 30 no existe → 422 (2.880071ms)
+  ✔ CN-PRV-05 CI dígito verificador incorrecto → 422 (4.393609ms)
+  ✔ CN-PRV-06 CI RUC ya registrado → 409 (2.774201ms)
+✔ Caja negra: RUC del proveedor — particiones de equivalencia (71.292621ms)
+▶ Caja negra: eliminar proveedor
+  ✔ CN-PRV-07 proveedor con productos → 409; proveedor sin productos → 200 (8.990696ms)
+✔ Caja negra: eliminar proveedor (9.170537ms)
+▶ Caja negra: buscar y editar proveedor
+  ✔ CN-PRV-08 buscar por razón social, RUC o contacto (sin importar tildes) (13.586431ms)
+  ✔ CN-PRV-09 editar proveedor: cambia el contacto; usar el RUC de otro proveedor → 409 (6.58235ms)
+✔ Caja negra: buscar y editar proveedor (20.473894ms)
+▶ Caja negra: precio del producto — valores límite (0.01 a 99,999.99)
+  ✔ CN-PRD-01 precio "0" → 422 (6.579001ms)
+  ✔ CN-PRD-02 precio "0.01" → 201 (6.449092ms)
+  ✔ CN-PRD-03 precio "99999.99" → 201 (2.292508ms)
+  ✔ CN-PRD-04 precio "100000" → 422 (6.160408ms)
+  ✔ CN-PRD-05 precio "-3.50" → 422 (2.532718ms)
+  ✔ CN-PRD-06 precio "4.555" → 422 (6.209835ms)
+  ✔ CN-PRD-07 precio "diez" → 422 (2.144519ms)
+  ✔ CN-PRD-08 precio "1e2" → 422 (2.474397ms)
+✔ Caja negra: precio del producto — valores límite (0.01 a 99,999.99) (36.013569ms)
+▶ Caja negra: stock del producto — valores límite (0 a 99,999)
+  ✔ CN-PRD-09 stock "-1" → 422 (3.881535ms)
+  ✔ CN-PRD-10 stock "0" → 201 (5.044914ms)
+  ✔ CN-PRD-11 stock "99999" → 201 (2.684787ms)
+  ✔ CN-PRD-12 stock "100000" → 422 (2.500278ms)
+  ✔ CN-PRD-13 stock "2.5" → 422 (2.346665ms)
+  ✔ CN-PRD-14 stock "0x10" → 422 (2.339592ms)
+✔ Caja negra: stock del producto — valores límite (0 a 99,999) (19.242319ms)
+▶ Caja negra: reglas de productos
+  ✔ CN-PRD-15 código con formato incorrecto → 422; código repetido → 409 (4.974259ms)
+  ✔ CN-PRD-16 proveedor inexistente → 422 en el campo proveedor_id (2.317058ms)
+  ✔ CN-PRD-17 el filtro stockBajo=1 solo devuelve productos con stock ≤ mínimo (1.980366ms)
+  ✔ CN-PRD-18 no se elimina un producto que figura en ventas; uno nuevo sí (5.358172ms)
+  ✔ CN-PRD-19 editar un producto actualiza el precio mostrado (4.617902ms)
+✔ Caja negra: reglas de productos (20.01814ms)
+▶ Caja negra: cantidad por línea — valores límite (1 a 1000)
+  ✔ CN-VEN-01 cantidad 0 → 422 (9.754395ms)
+  ✔ CN-VEN-02 cantidad 1 → 201 (6.152388ms)
+  ✔ CN-VEN-03 cantidad 1000 → 201 (4.930844ms)
+  ✔ CN-VEN-04 cantidad 1001 → 422 (5.592892ms)
+  ✔ CN-VEN-05 cantidad 1.5 → 422 (6.99642ms)
+✔ Caja negra: cantidad por línea — valores límite (1 a 1000) (54.816447ms)
+▶ Caja negra: tipo de comprobante y cliente
+  ✔ CN-VEN-06 factura a cliente con RUC → 201 con serie F001 (4.803022ms)
+  ✔ CN-VEN-07 factura a cliente con DNI → 422 (3.045415ms)
+  ✔ CN-VEN-08 boleta sin cliente de S/ 700.00 (límite) → 201; de S/ 700.50 → 422 (12.340731ms)
+  ✔ CN-VEN-09 tipo de comprobante inválido o items ausentes → 422 (8.969036ms)
+✔ Caja negra: tipo de comprobante y cliente (29.551248ms)
+▶ Caja negra: stock y anulación
+  ✔ CN-VEN-10 vender descuenta stock, anular lo repone y anular dos veces → 409 (19.127156ms)
+  ✔ CN-VEN-11 vender más que el stock → 409 con el stock disponible en el mensaje (4.429798ms)
+  ✔ CN-VEN-12 el resumen suma solo ventas emitidas (no anuladas) (5.508322ms)
+  ✔ CN-VEN-13 el detalle de la venta conserva el precio del momento de la venta (12.529261ms)
+✔ Caja negra: stock y anulación (42.105632ms)
+▶ Unitarias: cálculos de la venta
+  ✔ PU-CAL-01 calcularImporte multiplica cantidad por precio en céntimos (1.065149ms)
+  ✔ PU-CAL-02 calcularTotales separa la op. gravada y el IGV de un total con IGV incluido (1.112957ms)
+  ✔ PU-CAL-03 la suma de op. gravada + IGV siempre es igual al total (redondeo) (0.224789ms)
+  ✔ PU-CAL-04 agruparItems suma cantidades del mismo producto (0.260179ms)
+  ✔ PU-CAL-05 formatearComprobante rellena el correlativo con 8 dígitos (0.149182ms)
+  ✔ PU-CAL-06 constantes de negocio: IGV 18 % y límite de boleta S/ 700 (0.104819ms)
+✔ Unitarias: cálculos de la venta (5.126494ms)
+▶ Unitarias: enrutador
+  ✔ PU-RUT-01 compilarPatron extrae los nombres de parámetros (1.845046ms)
+  ✔ PU-RUT-02 resolver devuelve el manejador y los parámetros (0.590995ms)
+  ✔ PU-RUT-03 resolver distingue ruta inexistente (null) de método no permitido (0.303486ms)
+  ✔ PU-RUT-04 AppError conserva status y errores por campo (0.265656ms)
+✔ Unitarias: enrutador (5.360278ms)
+▶ Unitarias: clientesServicio
+  ✔ PU-SRV-01 crear normaliza los datos antes de guardarlos (1.810683ms)
+  ✔ PU-SRV-02 crear con datos inválidos lanza 422 y NO llama al repositorio (0.645726ms)
+  ✔ PU-SRV-03 crear con documento duplicado lanza 409 (0.308471ms)
+  ✔ PU-SRV-04 actualizar permite conservar el mismo documento del propio cliente (0.306343ms)
+  ✔ PU-SRV-05 eliminar un cliente con ventas lanza 409 y no elimina (0.201864ms)
+  ✔ PU-SRV-06 obtener un id inexistente lanza 404 y un id no numérico lanza 400 (0.197004ms)
+✔ Unitarias: clientesServicio (4.701668ms)
+▶ Unitarias: proveedoresServicio y productosServicio
+  ✔ PU-SRV-07 no se elimina un proveedor que abastece productos (0.317808ms)
+  ✔ PU-SRV-08 crear producto con proveedor inexistente lanza 422 en proveedor_id (0.672671ms)
+  ✔ PU-SRV-09 crear producto convierte el precio a céntimos y el código a mayúsculas (0.294714ms)
+✔ Unitarias: proveedoresServicio y productosServicio (1.445906ms)
+▶ Unitarias: ventasServicio con dobles de prueba
+  ✔ PU-SRV-10 registrar usa una transacción y descuenta el stock correcto (1.962422ms)
+  ✔ PU-SRV-11 si la validación falla no se abre la transacción (0.178702ms)
+✔ Unitarias: ventasServicio con dobles de prueba (2.270642ms)
+▶ Unitarias: validaciones de documentos peruanos
+  ✔ PU-VAL-01 validarDni acepta 8 dígitos (0.899667ms)
+  ✔ PU-VAL-02 validarDni recorta espacios antes de validar (0.245844ms)
+  ✔ PU-VAL-03 validarDni rechaza vacío, 7 dígitos y letras (0.218953ms)
+  ✔ PU-VAL-04 validarRuc acepta un RUC con dígito verificador correcto (0.32675ms)
+  ✔ PU-VAL-05 calcularDigitoRuc devuelve el dígito esperado (0.102791ms)
+✔ Unitarias: validaciones de documentos peruanos (2.971561ms)
+▶ Unitarias: contacto
+  ✔ PU-VAL-06 validarEmail: opcional vacío es válido y obligatorio vacío no (0.173018ms)
+  ✔ PU-VAL-07 validarEmail rechaza formatos incorrectos (0.249748ms)
+  ✔ PU-VAL-08 validarTelefono acepta celular (9 dígitos con 9) y fijo (6-7 dígitos) (0.230079ms)
+  ✔ PU-VAL-09 validarTelefono rechaza celular que no empieza en 9 y longitudes inválidas (0.103744ms)
+✔ Unitarias: contacto (0.966882ms)
+▶ Unitarias: números y dinero
+  ✔ PU-VAL-10 validarPrecio acepta límites 0.01 y 99999.99 (0.308737ms)
+  ✔ PU-VAL-11 validarPrecio rechaza 0, negativos, > máximo, 3 decimales y texto (0.22805ms)
+  ✔ PU-VAL-12 validarEntero rechaza decimales y valores fuera de rango (0.202779ms)
+  ✔ PU-VAL-13 solesACentimos evita errores de coma flotante (0.119501ms)
+  ✔ PU-VAL-14 formatearSoles usa el formato S/ 1,234.50 (13.641395ms)
+✔ Unitarias: números y dinero (15.634802ms)
+▶ Unitarias: seguridad y entidades
+  ✔ PU-VAL-15 escaparHtml neutraliza etiquetas (previene XSS) (0.237998ms)
+  ✔ PU-VAL-16 validarCliente devuelve todos los errores por campo (1.094298ms)
+  ✔ PU-VAL-17 validarCliente con RUC usa la validación de RUC (0.150683ms)
+  ✔ PU-VAL-18 validarProveedor exige RUC, razón social y teléfono (0.174082ms)
+  ✔ PU-VAL-19 validarProducto acepta un producto completo (0.28958ms)
+✔ Unitarias: seguridad y entidades (2.157617ms)
+ℹ tests 142
+ℹ suites 33
+ℹ pass 142
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1687.923621
+ℹ start of coverage report
+ℹ ----------------------------------------------------------------------------
+ℹ file                        | line % | branch % | funcs % | uncovered lines
+ℹ ----------------------------------------------------------------------------
+ℹ src                         |        |          |         | 
+ℹ  app.js                     |  96.06 |    94.12 |  100.00 | 114-116 119-120
+ℹ  db                         |        |          |         | 
+ℹ   conexion.js               |  96.77 |    84.62 |  100.00 | 34-35
+ℹ  dominio                    |        |          |         | 
+ℹ   calculos.js               | 100.00 |   100.00 |  100.00 | 
+ℹ  errores.js                 | 100.00 |   100.00 |  100.00 | 
+ℹ  http                       |        |          |         | 
+ℹ   estaticos.js              |  95.74 |    75.00 |  100.00 | 34-35
+ℹ   router.js                 | 100.00 |   100.00 |  100.00 | 
+ℹ   utilidadesHttp.js         | 100.00 |   100.00 |  100.00 | 
+ℹ  repositorios               |        |          |         | 
+ℹ   clientesRepositorio.js    | 100.00 |   100.00 |  100.00 | 
+ℹ   productosRepositorio.js   | 100.00 |    91.67 |  100.00 | 
+ℹ   proveedoresRepositorio.js |  98.44 |    90.00 |  100.00 | 24
+ℹ   utilidades.js             | 100.00 |   100.00 |  100.00 | 
+ℹ   ventasRepositorio.js      | 100.00 |    81.82 |  100.00 | 
+ℹ  servicios                  |        |          |         | 
+ℹ   clientesServicio.js       | 100.00 |    90.91 |  100.00 | 
+ℹ   comun.js                  | 100.00 |   100.00 |  100.00 | 
+ℹ   productosServicio.js      | 100.00 |    86.36 |  100.00 | 
+ℹ   proveedoresServicio.js    | 100.00 |    84.21 |  100.00 | 
+ℹ   ventasServicio.js         | 100.00 |    94.00 |  100.00 | 
+ℹ  shared                     |        |          |         | 
+ℹ   validaciones.js           |  99.25 |    91.07 |  100.00 | 17-18
+ℹ ----------------------------------------------------------------------------
+ℹ all files                   |  99.15 |    91.95 |  100.00 | 
+ℹ ----------------------------------------------------------------------------
+ℹ end of coverage report

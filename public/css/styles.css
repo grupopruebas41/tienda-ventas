@@ -591,6 +591,7 @@ td.acciones {
 
 /* Selector segmentado (Boleta / Factura) */
 .segmentado {
+  position: relative; /* DEF-09: contiene a los radio ocultos */
   display: inline-flex;
   border: 1px solid var(--borde-fuerte);
   border-radius: var(--radio-m);
@@ -598,6 +599,11 @@ td.acciones {
 }
 .segmentado input {
   position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
   opacity: 0;
   pointer-events: none;
 }
@@ -821,4 +827,40 @@ a.boton {
 .doc,
 td.numero {
   white-space: nowrap;
+}
+
+/* DEF-09: la tabla de líneas de venta no debe ensanchar el diálogo */
+.venta-cabecera > * {
+  min-width: 0;
+}
+.venta-cabecera select {
+  width: 100%;
+}
+.lineas {
+  table-layout: fixed;
+}
+.lineas th:nth-child(2),
+.lineas td:nth-child(2) {
+  width: 7.5rem;
+}
+.lineas th:nth-child(3),
+.lineas td:nth-child(3) {
+  width: 7rem;
+}
+.lineas th:nth-child(4),
+.lineas td:nth-child(4) {
+  width: 3rem;
+}
+.lineas select {
+  text-overflow: ellipsis;
+}
+@media (max-width: 900px) {
+  .lineas th:nth-child(2),
+  .lineas td:nth-child(2) {
+    width: 5rem;
+  }
+  .lineas th:nth-child(3),
+  .lineas td:nth-child(3) {
+    width: 5.5rem;
+  }
 }

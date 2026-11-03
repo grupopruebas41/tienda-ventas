@@ -1,0 +1,27 @@
+▶ E2E: interacción del usuario con la aplicación
+  ✔ E2E-01 el menú lateral navega entre las secciones y marca la activa (472.395172ms)
+  ✔ E2E-02 validación en tiempo real: los mensajes aparecen al escribir y desaparecen al corregir (246.437701ms)
+  ✔ E2E-03 enviar el formulario vacío no llama al servidor y enfoca el primer error (484.051357ms)
+  ✔ E2E-04 registrar cliente: aparece en la lista y se muestra el aviso de confirmación (382.537689ms)
+  ✔ E2E-05 al elegir RUC cambia la ayuda y el límite del cuadro de texto (evento change) (149.297949ms)
+  ✔ E2E-06 un documento duplicado muestra el error del servidor en el campo (462.234778ms)
+  ✔ E2E-07 la búsqueda filtra la lista mientras se escribe (evento input) (719.891606ms)
+  ✔ E2E-08 editar cliente actualiza la fila (456.264236ms)
+  ✔ E2E-09 eliminar pide confirmación: Cancelar conserva el registro, Eliminar lo quita (719.732439ms)
+  ✔ E2E-10 no se puede eliminar un proveedor con productos: se informa el motivo (427.230291ms)
+  ✔ E2E-11 registrar proveedor y producto; el filtro "Solo stock bajo" lo muestra (1075.396943ms)
+  ✔ E2E-12 nueva venta: totales en vivo, regla de factura y registro con descuento de stock (770.540482ms)
+  ✔ E2E-13 anular venta desde el detalle repone el stock (897.158478ms)
+  ✔ E2E-14 seguridad: un nombre con HTML se muestra como texto (sin ejecutar script) (793.384512ms)
+  ✔ E2E-15 diseño responsivo: en celular (390 px) no hay desplazamiento horizontal (618.454882ms)
+  ✔ E2E-16 regresión DEF-01: al cambiar de sección se cierra el formulario abierto (264.321797ms)
+  ✔ E2E-17 regresión DEF-09: el diálogo de venta no se desplaza con nombres largos (197.533781ms)
+✔ E2E: interacción del usuario con la aplicación (9365.934876ms)
+ℹ tests 17
+ℹ suites 1
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9672.965455

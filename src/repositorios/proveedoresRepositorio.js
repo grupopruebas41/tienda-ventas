@@ -15,7 +15,7 @@ function crearProveedoresRepositorio(db) {
           db
             .prepare(
               `${SELECT_BASE}
-               WHERE p.razon_social LIKE ? ESCAPE '\\' OR p.ruc LIKE ? ESCAPE '\\' OR p.contacto LIKE ? ESCAPE '\\'
+               WHERE normalizar(p.razon_social) LIKE ? ESCAPE '\\' OR normalizar(p.ruc) LIKE ? ESCAPE '\\' OR normalizar(p.contacto) LIKE ? ESCAPE '\\'
                ORDER BY p.razon_social`
             )
             .all(patron, patron, patron)

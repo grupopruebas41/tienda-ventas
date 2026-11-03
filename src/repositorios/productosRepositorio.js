@@ -15,7 +15,7 @@ function crearProductosRepositorio(db) {
       if (busqueda) {
         const patron = patronBusqueda(busqueda);
         condiciones.push(
-          "(pr.nombre LIKE ? ESCAPE '\\' OR pr.codigo LIKE ? ESCAPE '\\' OR pr.categoria LIKE ? ESCAPE '\\')"
+          "(normalizar(pr.nombre) LIKE ? ESCAPE '\\' OR normalizar(pr.codigo) LIKE ? ESCAPE '\\' OR normalizar(pr.categoria) LIKE ? ESCAPE '\\')"
         );
         parametros.push(patron, patron, patron);
       }

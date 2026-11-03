@@ -29,17 +29,20 @@ function leerJson(req) {
   return new Promise((resolve, reject) => {
     const tipo = req.headers['content-type'] || '';
     let tamano = 0;
+    let excedido = false;
     const partes = [];
     req.on('data', (parte) => {
       tamano += parte.length;
+      // DEF-06: no se corta la conexión; se descarta el resto y se responde 413 al terminar
       if (tamano > LIMITE_CUERPO_BYTES) {
-        reject(new AppError(413, 'La información enviada es demasiado grande.'));
-        req.destroy();
+        excedido = true;
+        partes.length = 0;
         return;
       }
       partes.push(parte);
     });
     req.on('end', () => {
+      if (excedido) return reject(new AppError(413, 'La información enviada es demasiado grande (máximo 100 KB).'));
       const texto = Buffer.concat(partes).toString('utf8');
       if (texto.trim() === '') return resolve({});
       if (!tipo.includes('application/json')) {

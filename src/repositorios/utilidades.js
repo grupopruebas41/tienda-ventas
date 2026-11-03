@@ -9,9 +9,17 @@ function planos(filas) {
   return filas.map(plano);
 }
 
-/** Patrón LIKE seguro: escapa % y _ para que el usuario busque texto literal. */
+/**
+ * Patrón LIKE seguro: escapa % y _ para que el usuario busque texto literal.
+ * Se compara contra normalizar(columna), por eso el patrón también va sin tildes.
+ */
 function patronBusqueda(texto) {
-  const limpio = String(texto || '').trim().replace(/[\\%_]/g, (c) => '\\' + c);
+  const limpio = String(texto || '')
+    .trim()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[\\%_]/g, (c) => '\\' + c);
   return `%${limpio}%`;
 }
 
