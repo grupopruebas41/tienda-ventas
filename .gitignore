@@ -5,3 +5,4 @@ database/*.db-shm
 coverage/
 test-results/
 .env
+.scannerwork/

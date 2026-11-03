@@ -2,6 +2,14 @@
 
 Formato basado en *Keep a Changelog* y versionado semántico (MAYOR.MENOR.PARCHE).
 
+## [1.1.2] — 2026-11-03
+### Corregido
+- Por recomendación de SonarQube (Reliability, 8 casos): en `public/js/vistas/crud.js` y `public/js/vistas/ventas.js`
+  las promesas de los listeners ya no quedan sueltas. Las que consultan la API (`abrir`, `abrirNuevaVenta`, `verVenta`)
+  terminan en `.catch()` y avisan el error al usuario; `cargar()`, `eliminar()` y `anular()`, que ya manejan sus errores, se marcan con `void`.
+- Por recomendación de SonarQube (Maintainability, Blocker): la prueba A11Y-07 ahora tiene aserciones explícitas
+  (foco en el título de la sección y anuncio de "Clientes").
+
 ## [1.1.1] — 2026-11-03
 ### Añadido
 - Integración continua con GitHub Actions: `pruebas.yml` (198 pruebas en cada push) y `sonarqube.yml` (análisis en SonarQube Cloud).
