@@ -16,5 +16,6 @@ completa (prueba de regresión) y luego se integró a `main`.
 | SC-08 | Corregir fallas de accesibilidad de la auditoría | DEF-10 a DEF-16 | Medio: CSS, enrutador, componentes | Aprobado | Rama `feature/accesibilidad` | A11Y-02 a A11Y-12, PU-A11Y-09 y 15 | 1.1.0 |
 | SC-09 | Corregir defectos del código nuevo | DEF-17 a DEF-19 | Bajo | Aprobado | Rama `feature/accesibilidad` | A11Y-10, E2E-04, A11Y-21 | 1.1.0 |
 | SC-10 | Corregir las 9 observaciones de SonarQube (promesas sin manejar y prueba sin aserciones) | Análisis de SonarQube | Bajo: `crud.js`, `ventas.js` y una prueba E2E | Aprobado | Rama `fix/sonarqube` | 198 pruebas (160 + 38 E2E) y 0 issues en SonarQube | 1.1.2 |
+| SC-11 | Eliminar la duplicación de los servicios CRUD y cubrir las ramas faltantes | Métricas de SonarQube: duplicación 1.6 % y cobertura de condiciones 92.0 % | Medio: 3 servicios + `crudServicio.js` nuevo; 24 pruebas nuevas | Aprobado | Rama `refactor/duplicacion-y-cobertura` | 222 pruebas (184 + 38 E2E), duplicación 0.0 %, cobertura 99.9 % (condiciones 99.8 %) y 0 issues | 1.1.3 |
 
 Para ver el historial completo: `git log --oneline --graph --all` y `git tag`.

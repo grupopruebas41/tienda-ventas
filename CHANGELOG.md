@@ -2,6 +2,21 @@
 
 Formato basado en *Keep a Changelog* y versionado semántico (MAYOR.MENOR.PARCHE).
 
+## [1.1.3] — 2026-11-03
+### Cambiado
+- Refactorización por recomendación de SonarQube (duplicación 1.6 %, toda en `src/servicios`): nuevo
+  `src/servicios/crudServicio.js` con `crearServicioCrud(config)`, que implementa buscar por id (404), validar (422),
+  normalizar, evitar duplicados (409) y no eliminar registros con dependencias (409). `clientesServicio.js`,
+  `proveedoresServicio.js` y `productosServicio.js` solo declaran su configuración. Misma interfaz pública, códigos
+  HTTP y mensajes. Duplicación: 1.6 % → 0.0 %.
+### Añadido
+- 24 pruebas de caja blanca en `tests/caja-blanca/ramas-faltantes.test.js` (CB-COV-01 a CB-COV-24) para las ramas
+  sin cubrir de `conexion.js`, `estaticos.js`, `app.js`, `validaciones.js` (rama UMD del navegador), servicios y repositorios.
+  Total: 184 pruebas + 38 E2E = 222.
+- Cobertura (node:test): líneas 99.15 % → 100 %, ramas 91.95 % → 99.75 %.
+  Cobertura (SonarQube): 97.5 % → 99.9 %; condiciones 92.0 % → 99.8 %. La única rama sin cubrir
+  (`conComprobante` con venta nula, en `ventasServicio.js`) es defensiva e inalcanzable.
+
 ## [1.1.2] — 2026-11-03
 ### Corregido
 - Por recomendación de SonarQube (Reliability, 8 casos): en `public/js/vistas/crud.js` y `public/js/vistas/ventas.js`

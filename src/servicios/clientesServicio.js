@@ -2,7 +2,8 @@
 
 const { AppError } = require('../errores');
 const { validarCliente, aTexto } = require('../shared/validaciones');
-const { validarId, textoOpcional } = require('./comun');
+const { textoOpcional } = require('./comun');
+const { crearServicioCrud } = require('./crudServicio');
 
 function normalizar(datos) {
   return {
@@ -21,55 +22,20 @@ function normalizar(datos) {
  * prueba en las pruebas unitarias.
  */
 function crearClientesServicio(repositorio) {
-  function obtenerExistente(id) {
-    const cliente = repositorio.obtener(validarId(id));
-    if (!cliente) throw AppError.noEncontrado('El cliente');
-    return cliente;
-  }
-
-  function validarYNormalizar(datos, idActual) {
-    const { valido, errores } = validarCliente(datos);
-    if (!valido) throw AppError.validacion(errores);
-    const cliente = normalizar(datos);
-    const duplicado = repositorio.buscarPorDocumento(cliente.numero_documento);
-    if (duplicado && duplicado.id !== idActual) {
-      throw AppError.conflicto('Ya existe un cliente con ese documento.', {
+  return crearServicioCrud({
+    repositorio,
+    nombreEntidad: 'El cliente',
+    validar: validarCliente,
+    normalizar,
+    buscarDuplicado: (cliente) => repositorio.buscarPorDocumento(cliente.numero_documento),
+    errorDuplicado: (cliente) =>
+      AppError.conflicto('Ya existe un cliente con ese documento.', {
         numero_documento: `El ${cliente.tipo_documento} ${cliente.numero_documento} ya está registrado.`,
-      });
-    }
-    return cliente;
-  }
-
-  return {
-    listar(busqueda) {
-      return repositorio.listar(aTexto(busqueda));
-    },
-
-    obtener(id) {
-      return obtenerExistente(id);
-    },
-
-    crear(datos) {
-      return repositorio.crear(validarYNormalizar(datos || {}, null));
-    },
-
-    actualizar(id, datos) {
-      const existente = obtenerExistente(id);
-      return repositorio.actualizar(existente.id, validarYNormalizar(datos || {}, existente.id));
-    },
-
-    eliminar(id) {
-      const existente = obtenerExistente(id);
-      const ventas = repositorio.contarVentas(existente.id);
-      if (ventas > 0) {
-        throw AppError.conflicto(
-          `No se puede eliminar a ${existente.nombre}: tiene ${ventas} venta(s) registrada(s).`
-        );
-      }
-      repositorio.eliminar(existente.id);
-      return existente;
-    },
-  };
+      }),
+    contarDependencias: (id) => repositorio.contarVentas(id),
+    mensajeDependencias: (cliente, ventas) =>
+      `No se puede eliminar a ${cliente.nombre}: tiene ${ventas} venta(s) registrada(s).`,
+  });
 }
 
 module.exports = { crearClientesServicio };

@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 24
 
-      - name: Pruebas unitarias, de caja blanca y de caja negra (160)
+      - name: Pruebas unitarias, de caja blanca y de caja negra (184)
         run: npm test
 
       - name: Instalar Playwright y Chromium
