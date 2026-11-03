@@ -186,6 +186,13 @@ describe('Accesibilidad (WCAG 2.2 AA)', { skip: !chromium && 'Instala Playwright
     await pagina.waitForSelector('[data-vista="clientes"] .vista__titulo');
     await pagina.waitForFunction(() => document.activeElement?.classList.contains('vista__titulo'));
     await pagina.waitForFunction(() => /Clientes/.test(document.getElementById('anunciador')?.textContent || ''));
+    // Las esperas evitan fallos intermitentes; las aserciones dejan explícito qué se comprueba
+    const r = await pagina.evaluate(() => ({
+      focoEnTitulo: document.activeElement?.classList.contains('vista__titulo') || false,
+      anuncio: document.getElementById('anunciador')?.textContent || '',
+    }));
+    assert.ok(r.focoEnTitulo, 'el foco no está en el título de la sección');
+    assert.match(r.anuncio, /Clientes/);
   });
 
   /* ---------------- Teclado ---------------- */
