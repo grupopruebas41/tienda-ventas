@@ -41,6 +41,7 @@ export async function vistaVentas(contenedor) {
     estado.ventas = datos;
     zona.innerHTML = tablaHtml({
       testid: 'tabla-ventas',
+      titulo: 'Ventas registradas',
       filas: datos,
       vacio: { titulo: 'Todavía no hay ventas.', texto: ' Registra la primera con "Nueva venta".' },
       columnas: [
@@ -173,7 +174,7 @@ async function abrirNuevaVenta(alGuardar) {
 
         <div class="tabla-contenedor">
           <table class="lineas">
-            <thead><tr><th>Producto</th><th class="numero">Cantidad</th><th class="numero">Importe</th><th><span class="saltar">Quitar</span></th></tr></thead>
+            <thead><tr><th>Producto</th><th class="numero">Cantidad</th><th class="numero">Importe</th><th><span class="solo-lectores">Quitar</span></th></tr></thead>
             <tbody id="venta-lineas"></tbody>
           </table>
         </div>
@@ -184,7 +185,8 @@ async function abrirNuevaVenta(alGuardar) {
           <div><span>IGV 18 %</span><span id="venta-igv">S/ 0.00</span></div>
           <div class="total"><span>Total</span><span id="venta-total" data-testid="venta-total">S/ 0.00</span></div>
         </div>
-        <p class="aviso-regla" id="venta-regla" hidden></p>
+        <p class="solo-lectores" id="venta-total-anuncio" aria-live="polite" aria-atomic="true"></p>
+        <p class="aviso-regla" id="venta-regla" aria-live="polite" hidden></p>
       </div>
       <p class="form-error-general" id="venta-error" role="alert" hidden></p>
       <footer class="dialogo__pie">
@@ -199,6 +201,15 @@ async function abrirNuevaVenta(alGuardar) {
   const error = dialogo.querySelector('#venta-error');
   const registrar = dialogo.querySelector('#venta-registrar');
   const buscarProducto = (id) => disponibles.find((p) => p.id === Number(id));
+  // El total se anuncia al lector de pantalla con un pequeño retraso para no interrumpir al escribir
+  let temporizadorTotal;
+  const anunciarTotal = (texto) => {
+    clearTimeout(temporizadorTotal);
+    temporizadorTotal = setTimeout(() => {
+      const region = dialogo.querySelector('#venta-total-anuncio');
+      if (region) region.textContent = texto;
+    }, 700);
+  };
 
   function pintarLineas() {
     cuerpo.innerHTML = lineas
@@ -209,7 +220,7 @@ async function abrirNuevaVenta(alGuardar) {
         return `
           <tr data-linea="${i}">
             <td><select data-campo="producto" aria-label="Producto de la línea ${i + 1}"><option value="">Elige un producto</option>${opciones}</select></td>
-            <td class="numero"><input type="number" min="1" step="1" value="${l.cantidad}" data-campo="cantidad" aria-label="Cantidad de la línea ${i + 1}" /><span class="campo__error" data-error></span></td>
+            <td class="numero"><input type="number" min="1" step="1" value="${l.cantidad}" data-campo="cantidad" id="venta-cantidad-${i}" aria-label="Cantidad de la línea ${i + 1}" /><span class="campo__error" data-error id="venta-error-${i}"></span></td>
             <td class="numero" data-importe>S/ 0.00</td>
             <td class="acciones"><button type="button" class="boton-icono" data-quitar aria-label="Quitar línea ${i + 1}" ${lineas.length === 1 ? 'disabled' : ''}>✕</button></td>
           </tr>`;
@@ -236,6 +247,10 @@ async function abrirNuevaVenta(alGuardar) {
       if (!Number.isInteger(cantidad) || cantidad < 1) mensaje = 'Mínimo 1';
       else if (producto && pedidas.get(producto.id) > producto.stock) mensaje = `Máx. ${producto.stock}`;
       fila.querySelector('[data-error]').textContent = mensaje;
+      const cantidadInput = fila.querySelector('[data-campo="cantidad"]');
+      cantidadInput.setAttribute('aria-invalid', mensaje ? 'true' : 'false');
+      if (mensaje) cantidadInput.setAttribute('aria-describedby', `venta-error-${i}`);
+      else cantidadInput.removeAttribute('aria-describedby');
       fila.querySelector('td.numero').classList.toggle('campo--error', Boolean(mensaje));
       const importe = producto && !mensaje ? cantidad * producto.precio_centimos : 0;
       fila.querySelector('[data-importe]').textContent = soles(importe);
@@ -247,6 +262,7 @@ async function abrirNuevaVenta(alGuardar) {
     dialogo.querySelector('#venta-subtotal').textContent = soles(t.subtotal);
     dialogo.querySelector('#venta-igv').textContent = soles(t.igv);
     dialogo.querySelector('#venta-total').textContent = soles(t.total);
+    anunciarTotal(`Total de la venta: ${soles(t.total)}, IGV incluido.`);
 
     const tipo = form.elements.tipo.value;
     const opcionCliente = form.elements.cliente.selectedOptions[0];

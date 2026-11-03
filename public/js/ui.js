@@ -7,15 +7,58 @@ const V = () => window.Validaciones;
 export const esc = (valor) => V().escaparHtml(valor);
 export const soles = (centimos) => V().formatearSoles(centimos);
 
+const A11y = () => window.Accesibilidad || { anunciar() {}, hablarSiActivo() {} };
+
 /* ---------------- Avisos ---------------- */
+const DURACION_OK_MS = 8000;
+const MAX_AVISOS = 3;
+
+/**
+ * Muestra un aviso.
+ *  - Confirmaciones: se anuncian por la región #anunciador; se ocultan a los 8 s, pero el tiempo se pausa
+ *    mientras el puntero o el foco están sobre el aviso (WCAG 2.2.1).
+ *  - Errores: el texto tiene role="alert"; NO desaparecen solos (DEF-14), se cierran con el botón.
+ */
 export function avisar(mensaje, tipo = 'ok') {
   const contenedor = document.getElementById('avisos');
+  const esError = tipo === 'error';
   const aviso = document.createElement('div');
-  aviso.className = `aviso${tipo === 'error' ? ' aviso--error' : ''}`;
-  aviso.dataset.testid = tipo === 'error' ? 'aviso-error' : 'aviso-ok';
-  aviso.textContent = mensaje;
+  aviso.className = `aviso${esError ? ' aviso--error' : ''}`;
+  aviso.dataset.testid = esError ? 'aviso-error' : 'aviso-ok';
+  // Solo el texto del mensaje se anuncia (no el botón "✕"):
+  //  - errores: role="alert" en el texto (se leen de inmediato)
+  //  - confirmaciones: región de anuncios permanente (#anunciador), más confiable que un role="status" recién creado
+  const texto = document.createElement('span');
+  texto.className = 'aviso__texto';
+  texto.textContent = mensaje;
+  if (esError) texto.setAttribute('role', 'alert');
+  else A11y().anunciar(mensaje);
+  const cerrar = document.createElement('button');
+  cerrar.type = 'button';
+  cerrar.className = 'aviso__cerrar';
+  cerrar.setAttribute('aria-label', 'Cerrar aviso');
+  cerrar.innerHTML = '<span aria-hidden="true">✕</span>';
+  aviso.append(texto, cerrar);
+
+  while (contenedor.children.length >= MAX_AVISOS) contenedor.firstElementChild.remove();
   contenedor.appendChild(aviso);
-  setTimeout(() => aviso.remove(), tipo === 'error' ? 6000 : 3500);
+  A11y().hablarSiActivo(mensaje);
+
+  let temporizador = null;
+  const quitar = () => {
+    clearTimeout(temporizador);
+    aviso.remove();
+  };
+  const programar = () => {
+    if (!esError) temporizador = setTimeout(quitar, DURACION_OK_MS);
+  };
+  const pausar = () => clearTimeout(temporizador);
+  cerrar.addEventListener('click', quitar);
+  aviso.addEventListener('mouseenter', pausar);
+  aviso.addEventListener('focusin', pausar);
+  aviso.addEventListener('mouseleave', programar);
+  aviso.addEventListener('focusout', programar);
+  programar();
 }
 
 /* ---------------- Confirmación ---------------- */
@@ -66,7 +109,7 @@ function htmlCampo(c) {
     const opciones = c.opciones
       .map((o) => `<option value="${esc(o.valor)}">${esc(o.texto)}</option>`)
       .join('');
-    control = `<select id="${id}" name="${c.nombre}">${c.vacio ? `<option value="">${esc(c.vacio)}</option>` : ''}${opciones}</select>`;
+    control = `<select id="${id}" name="${c.nombre}"${c.requerido ? ' aria-required="true"' : ''}>${c.vacio ? `<option value="">${esc(c.vacio)}</option>` : ''}${opciones}</select>`;
   } else {
     const extra = [
       c.maxlength ? `maxlength="${c.maxlength}"` : '',
@@ -75,6 +118,8 @@ function htmlCampo(c) {
       c.min !== undefined ? `min="${c.min}"` : '',
       c.placeholder ? `placeholder="${esc(c.placeholder)}"` : '',
       c.autocomplete ? `autocomplete="${c.autocomplete}"` : 'autocomplete="off"',
+      c.requerido ? 'aria-required="true"' : '',
+      c.ayuda ? `aria-describedby="${id}-ayuda"` : '',
     ].join(' ');
     control = `<input id="${id}" name="${c.nombre}" type="${c.tipo || 'text'}" ${extra} />`;
   }
@@ -105,8 +150,27 @@ function pintarErrores(form, campos, errores, soloTocados, tocados) {
     contenedor.classList.toggle('campo--error', mostrar && Boolean(mensaje));
     contenedor.classList.toggle('campo--ok', mostrar && !mensaje && control.value.trim() !== '');
     control.setAttribute('aria-invalid', mostrar && mensaje ? 'true' : 'false');
+    // Con error, el lector de pantalla lee el mensaje; sin error, la ayuda del campo
     if (mostrar && mensaje) control.setAttribute('aria-describedby', `campo-${c.nombre}-error`);
+    else if (c.ayuda) control.setAttribute('aria-describedby', `campo-${c.nombre}-ayuda`);
+    else control.removeAttribute('aria-describedby');
   }
+}
+
+/** Resumen de errores con enlaces a cada campo (WCAG 3.3.1). */
+function pintarResumen(resumen, campos, errores) {
+  const conError = campos.filter((c) => errores[c.nombre]);
+  if (conError.length === 0) {
+    resumen.hidden = true;
+    resumen.innerHTML = '';
+    return;
+  }
+  resumen.innerHTML = `
+    <p>${conError.length === 1 ? 'Revisa 1 campo:' : `Revisa ${conError.length} campos:`}</p>
+    <ul>${conError
+      .map((c) => `<li><a href="#campo-${c.nombre}" data-ir-campo="campo-${c.nombre}">${esc(c.etiqueta)}: ${esc(errores[c.nombre])}</a></li>`)
+      .join('')}</ul>`;
+  resumen.hidden = false;
 }
 
 /**
@@ -125,12 +189,15 @@ export function abrirFormulario(cfg) {
   const form = document.getElementById('form-entidad');
   const contenedor = document.getElementById('form-campos');
   const errorGeneral = document.getElementById('form-error-general');
+  const resumen = document.getElementById('form-resumen-errores');
   const botonEnviar = document.getElementById('form-enviar');
 
   document.getElementById('dialogo-form-titulo').textContent = cfg.titulo;
   botonEnviar.textContent = cfg.textoBoton || 'Guardar';
   contenedor.innerHTML = `<div class="rejilla">${cfg.campos.map(htmlCampo).join('')}</div>`;
   errorGeneral.hidden = true;
+  resumen.hidden = true;
+  resumen.innerHTML = '';
 
   const valores = cfg.valores || {};
   for (const c of cfg.campos) {
@@ -143,6 +210,7 @@ export function abrirFormulario(cfg) {
   const validarAhora = (soloTocados) => {
     const resultado = cfg.validar(leerFormulario(form, cfg.campos));
     pintarErrores(form, cfg.campos, resultado.errores, soloTocados, tocados);
+    if (resultado.valido) pintarResumen(resumen, cfg.campos, {});
     return resultado;
   };
 
@@ -158,8 +226,9 @@ export function abrirFormulario(cfg) {
   const alEnviar = async (e) => {
     e.preventDefault();
     cfg.campos.forEach((c) => tocados.add(c.nombre));
-    const { valido } = validarAhora(false);
+    const { valido, errores } = validarAhora(false);
     if (!valido) {
+      pintarResumen(resumen, cfg.campos, errores);
       form.querySelector('.campo--error input, .campo--error select')?.focus();
       return;
     }
@@ -171,9 +240,13 @@ export function abrirFormulario(cfg) {
       cerrar();
       avisar(respuesta.mensaje || 'Cambios guardados.');
     } catch (error) {
-      if (error.errores) pintarErrores(form, cfg.campos, error.errores, false, tocados);
+      if (error.errores) {
+        pintarErrores(form, cfg.campos, error.errores, false, tocados);
+        pintarResumen(resumen, cfg.campos, error.errores);
+      }
       errorGeneral.textContent = error.message;
       errorGeneral.hidden = false;
+      A11y().hablarSiActivo(error.message);
     } finally {
       botonEnviar.disabled = false;
       botonEnviar.textContent = cfg.textoBoton || 'Guardar';
@@ -182,6 +255,11 @@ export function abrirFormulario(cfg) {
 
   const alCerrarClick = (e) => {
     if (e.target.closest('[data-cerrar]')) cerrar();
+    const enlace = e.target.closest('[data-ir-campo]');
+    if (enlace) {
+      e.preventDefault();
+      document.getElementById(enlace.dataset.irCampo)?.focus();
+    }
   };
 
   function cerrar() {
@@ -205,7 +283,7 @@ export function abrirFormulario(cfg) {
 }
 
 /* ---------------- Tabla con estado vacío ---------------- */
-export function tablaHtml({ columnas, filas, vacio, testid }) {
+export function tablaHtml({ columnas, filas, vacio, testid, titulo }) {
   if (filas.length === 0) {
     return `<div class="tabla-contenedor"><div class="vacio" data-testid="vacio"><strong>${esc(vacio.titulo)}</strong>${esc(vacio.texto)}</div></div>`;
   }
@@ -215,5 +293,6 @@ export function tablaHtml({ columnas, filas, vacio, testid }) {
   const cuerpo = filas
     .map((f) => `<tr data-id="${f.id}">${columnas.map((c) => `<td class="${c.clase || ''}">${c.celda(f)}</td>`).join('')}</tr>`)
     .join('');
-  return `<div class="tabla-contenedor"><table data-testid="${testid}"><thead><tr>${cabecera}</tr></thead><tbody>${cuerpo}</tbody></table></div>`;
+  const caption = `<caption class="solo-lectores">${esc(titulo || 'Lista')}, ${filas.length} ${filas.length === 1 ? 'fila' : 'filas'}</caption>`;
+  return `<div class="tabla-contenedor"><table data-testid="${testid}">${caption}<thead><tr>${cabecera}</tr></thead><tbody>${cuerpo}</tbody></table></div>`;
 }

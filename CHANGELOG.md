@@ -2,6 +2,18 @@
 
 Formato basado en *Keep a Changelog* y versionado semántico (MAYOR.MENOR.PARCHE).
 
+## [1.1.0] — 2026-11-03
+### Añadido — accesibilidad (WCAG 2.2 AA)
+- Panel "Accesibilidad": tamaño de texto (100 / 125 / 150 %), alto contraste (≥ 7:1), espaciado de texto amplio,
+  reducir animaciones y lectura en voz alta de la sección y de los avisos. Las opciones se recuerdan.
+- Atajos de teclado (Alt + Mayús + 1–5, N, B, L, A) y enlace "Saltar al contenido" funcional.
+- Lectores de pantalla: anuncio de la sección al navegar, resumen de errores con enlaces a cada campo,
+  campos obligatorios anunciados, `autocomplete`, títulos de tabla, total de la venta anunciado.
+- Avisos con botón de cierre; los errores no desaparecen solos.
+- Pruebas: 18 de contraste (unitarias estáticas) y 21 de accesibilidad E2E.
+### Corregido
+- DEF-10 a DEF-19 (ver `docs/registro-de-defectos.md`).
+
 ## [1.0.0] — 2026-11-02
 ### Añadido
 - Suite de pruebas: 40 unitarias, 35 de caja blanca, 67 de caja negra (API) y 17 E2E (Playwright).

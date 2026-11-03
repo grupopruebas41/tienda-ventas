@@ -30,6 +30,7 @@ export async function vistaResumen(contenedor) {
         <h2 class="bloque__titulo">Por reponer <a href="#/productos">Ver productos</a></h2>
         ${tablaHtml({
           testid: 'tabla-stock-bajo',
+          titulo: 'Productos por reponer',
           filas: stockBajo,
           vacio: { titulo: 'Todo el stock está en orden.', texto: ' Ningún producto está por debajo de su mínimo.' },
           columnas: [
@@ -42,6 +43,7 @@ export async function vistaResumen(contenedor) {
         <h2 class="bloque__titulo">Últimas ventas <a href="#/ventas">Ver todas</a></h2>
         ${tablaHtml({
           testid: 'tabla-ultimas-ventas',
+          titulo: 'Últimas ventas',
           filas: ventas.slice(0, 5),
           vacio: { titulo: 'Sin ventas todavía.', texto: ' La primera venta aparecerá aquí.' },
           columnas: [

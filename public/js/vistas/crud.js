@@ -21,7 +21,7 @@ export function crearVistaCrud(cfg) {
       </header>
       <div class="barra">
         <label class="barra__busqueda">
-          <span class="saltar">Buscar</span>
+          <span class="solo-lectores">Buscar</span>
           <input type="search" placeholder="${esc(cfg.placeholderBusqueda)}" data-testid="buscar" aria-label="Buscar ${esc(cfg.titulo.toLowerCase())}" />
         </label>
         ${(cfg.filtros || [])
@@ -54,6 +54,7 @@ export function crearVistaCrud(cfg) {
           ],
           filas: datos,
           testid: `tabla-${cfg.recurso}`,
+          titulo: `Lista de ${cfg.titulo.toLowerCase()}`,
           vacio: estado.busqueda
             ? { titulo: `Sin resultados para "${estado.busqueda}".`, texto: ' Prueba con otro nombre o documento.' }
             : cfg.vacio,

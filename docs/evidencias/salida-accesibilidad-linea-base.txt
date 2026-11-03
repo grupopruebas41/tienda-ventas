@@ -1,0 +1,274 @@
+▶ Accesibilidad (WCAG 2.2 AA)
+  ✔ A11Y-01 [4.1.2] todos los botones, enlaces y campos tienen nombre accesible (1248.220027ms)
+  ✖ A11Y-02 [1.3.1, 3.3.2] los campos obligatorios se anuncian como obligatorios (256.115756ms)
+  ✖ A11Y-03 [1.3.5] los campos de datos personales indican su propósito (autocomplete) (202.638766ms)
+  ✖ A11Y-04 [3.3.1, 4.1.3] al enviar con errores se anuncia un resumen con enlaces a cada campo (8436.373669ms)
+  ✖ A11Y-05 [4.1.3] los avisos se anuncian: confirmaciones como estado y errores como alerta (428.55181ms)
+  ✖ A11Y-06 [1.3.1] las tablas tienen título (caption) y encabezados de columna (130.923076ms)
+  ✖ A11Y-07 [2.4.3, 4.1.3] al cambiar de sección el foco va al título y se anuncia la sección (8206.178773ms)
+  ✖ A11Y-08 [2.1.1] registrar un cliente usando solo el teclado (8228.805338ms)
+  ✔ A11Y-09 [2.4.3] al cerrar un diálogo el foco vuelve al botón que lo abrió (189.431536ms)
+  ✖ A11Y-10 [2.1.1, 2.1.4] atajos de teclado: Alt+Shift+número, N (nuevo) y B (buscar) (8128.112649ms)
+  ✖ A11Y-11 [2.4.7, 1.4.11] el foco es visible también en el modo de colores forzados de Windows (142.443497ms)
+  ✖ A11Y-12 [2.2.1] los avisos de error no desaparecen solos y se pueden cerrar (7440.51159ms)
+  ✖ A11Y-13 [1.4.4, 1.4.10] texto al 150 %: todo se agranda y no aparece desplazamiento horizontal (8122.97549ms)
+  ✖ A11Y-14 [1.4.6] alto contraste: el texto alcanza al menos 7:1 (8134.773349ms)
+  ✖ A11Y-15 las preferencias se recuerdan al volver a abrir el sistema (113.618636ms)
+  ✖ A11Y-16 [1.4.12] espaciado de texto amplio sin cortar contenido (8113.476099ms)
+  ✖ A11Y-17 [2.3.3] reducir movimiento desactiva las animaciones (8118.390564ms)
+  ✖ A11Y-18 lectura en voz alta: lee la sección y los avisos para personas con baja visión (8105.460794ms)
+  ✖ A11Y-19 [4.1.3] en la venta, el total se anuncia y el error de cantidad queda asociado al campo (8140.823641ms)
+  ✔ A11Y-20 [2.5.8] los botones tienen un área táctil de al menos 24 × 24 px (260.211756ms)
+✖ Accesibilidad (WCAG 2.2 AA) (92392.796022ms)
+ℹ tests 20
+ℹ suites 1
+ℹ pass 3
+ℹ fail 17
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 92676.990564
+
+✖ failing tests:
+
+test at tests/e2e/accesibilidad.test.js:114:3
+✖ A11Y-02 [1.3.1, 3.3.2] los campos obligatorios se anuncian como obligatorios (256.115756ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'campo-codigo',
+  +   'campo-categoria',
+  +   'campo-nombre',
+  +   'campo-precio',
+  +   'campo-proveedor_id',
+  +   'campo-stock',
+  +   'campo-stock_minimo'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/home/claude/tienda-ventas/tests/e2e/accesibilidad.test.js:126:12)
+      at async Test.run (node:internal/test_runner/test:1054:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:744:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'campo-codigo', 'campo-categoria', 'campo-nombre', 'campo-precio', 'campo-proveedor_id', 'campo-stock', 'campo-stock_minimo' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/e2e/accesibilidad.test.js:129:3
+✖ A11Y-03 [1.3.5] los campos de datos personales indican su propósito (autocomplete) (202.638766ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'off',
+  +   'off',
+  +   'off',
+  +   'off'
+  -   'name',
+  -   'email',
+  -   'tel',
+  -   'street-address'
+    ]
+  
+      at TestContext.<anonymous> (/home/claude/tienda-ventas/tests/e2e/accesibilidad.test.js:136:12)
+      at async Test.run (node:internal/test_runner/test:1054:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:744:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'off', 'off', 'off', 'off' ],
+    expected: [ 'name', 'email', 'tel', 'street-address' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/e2e/accesibilidad.test.js:139:3
+✖ A11Y-04 [3.3.1, 4.1.3] al enviar con errores se anuncia un resumen con enlaces a cada campo (8436.373669ms)
+  locator.waitFor: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#form-resumen-errores') to be visible
+  
+      at TestContext.<anonymous> (/home/claude/tienda-ventas/tests/e2e/accesibilidad.test.js:144:19) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#form-resumen-errores') to be visible" ]
+  }
+
+test at tests/e2e/accesibilidad.test.js:156:3
+✖ A11Y-05 [4.1.3] los avisos se anuncian: confirmaciones como estado y errores como alerta (428.55181ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  null !== 'alert'
+  
+      at TestContext.<anonymous> (/home/claude/tienda-ventas/tests/e2e/accesibilidad.test.js:162:12)
+      at async Test.run (node:internal/test_runner/test:1054:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:744:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: 'alert',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/e2e/accesibilidad.test.js:165:3
+✖ A11Y-06 [1.3.1] las tablas tienen título (caption) y encabezados de columna (130.923076ms)
+  AssertionError [ERR_ASSERTION]: ventas sin caption
+      at TestContext.<anonymous> (/home/claude/tienda-ventas/tests/e2e/accesibilidad.test.js:172:14)
+      at async Test.run (node:internal/test_runner/test:1054:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:744:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/e2e/accesibilidad.test.js:177:3
+✖ A11Y-07 [2.4.3, 4.1.3] al cambiar de sección el foco va al título y se anuncia la sección (8206.178773ms)
+  page.waitForFunction: Timeout 8000ms exceeded.
+      at TestContext.<anonymous> (/home/claude/tienda-ventas/tests/e2e/accesibilidad.test.js:181:18) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at tests/e2e/accesibilidad.test.js:187:3
+✖ A11Y-08 [2.1.1] registrar un cliente usando solo el teclado (8228.805338ms)
+  page.waitForSelector: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('[data-testid="aviso-ok"]:has-text("Cliente registrado.")') to be visible
+  
+      at TestContext.<anonymous> (/home/claude/tienda-ventas/tests/e2e/accesibilidad.test.js:203:18) {
+    name: 'TimeoutError',
+    log: [ `  - waiting for locator('[data-testid="aviso-ok"]:has-text("Cliente registrado.")') to be visible` ]
+  }
+
+test at tests/e2e/accesibilidad.test.js:224:3
+✖ A11Y-10 [2.1.1, 2.1.4] atajos de teclado: Alt+Shift+número, N (nuevo) y B (buscar) (8128.112649ms)
+  page.waitForSelector: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('[data-vista="clientes"] .vista__titulo') to be visible
+  
+      at TestContext.<anonymous> (/home/claude/tienda-ventas/tests/e2e/accesibilidad.test.js:227:18) {
+    name: 'TimeoutError',
+    log: [ `  - waiting for locator('[data-vista="clientes"] .vista__titulo') to be visible` ]
+  }
+
+test at tests/e2e/accesibilidad.test.js:235:3
+✖ A11Y-11 [2.4.7, 1.4.11] el foco es visible también en el modo de colores forzados de Windows (142.443497ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to:
+  
+  'none'
+      at TestContext.<anonymous> (/home/claude/tienda-ventas/tests/e2e/accesibilidad.test.js:244:12)
+      at async Test.run (node:internal/test_runner/test:1054:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:744:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'none',
+    expected: 'none',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/e2e/accesibilidad.test.js:250:3
+✖ A11Y-12 [2.2.1] los avisos de error no desaparecen solos y se pueden cerrar (7440.51159ms)
+  AssertionError [ERR_ASSERTION]: el error desapareció solo
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/home/claude/tienda-ventas/tests/e2e/accesibilidad.test.js:257:12)
+      at async Test.run (node:internal/test_runner/test:1054:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:744:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/e2e/accesibilidad.test.js:264:3
+✖ A11Y-13 [1.4.4, 1.4.10] texto al 150 %: todo se agranda y no aparece desplazamiento horizontal (8122.97549ms)
+  page.click: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#boton-accesibilidad')
+  
+      at TestContext.<anonymous> (/home/claude/tienda-ventas/tests/e2e/accesibilidad.test.js:267:18) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#boton-accesibilidad')" ]
+  }
+
+test at tests/e2e/accesibilidad.test.js:287:3
+✖ A11Y-14 [1.4.6] alto contraste: el texto alcanza al menos 7:1 (8134.773349ms)
+  page.click: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#boton-accesibilidad')
+  
+      at TestContext.<anonymous> (/home/claude/tienda-ventas/tests/e2e/accesibilidad.test.js:289:18) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#boton-accesibilidad')" ]
+  }
+
+test at tests/e2e/accesibilidad.test.js:314:3
+✖ A11Y-15 las preferencias se recuerdan al volver a abrir el sistema (113.618636ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  null !== 'alto'
+  
+      at TestContext.<anonymous> (/home/claude/tienda-ventas/tests/e2e/accesibilidad.test.js:316:12)
+      at async Test.run (node:internal/test_runner/test:1054:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:744:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: 'alto',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/e2e/accesibilidad.test.js:324:3
+✖ A11Y-16 [1.4.12] espaciado de texto amplio sin cortar contenido (8113.476099ms)
+  page.click: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#boton-accesibilidad')
+  
+      at TestContext.<anonymous> (/home/claude/tienda-ventas/tests/e2e/accesibilidad.test.js:326:18) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#boton-accesibilidad')" ]
+  }
+
+test at tests/e2e/accesibilidad.test.js:340:3
+✖ A11Y-17 [2.3.3] reducir movimiento desactiva las animaciones (8118.390564ms)
+  page.click: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#boton-accesibilidad')
+  
+      at TestContext.<anonymous> (/home/claude/tienda-ventas/tests/e2e/accesibilidad.test.js:342:18) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#boton-accesibilidad')" ]
+  }
+
+test at tests/e2e/accesibilidad.test.js:351:3
+✖ A11Y-18 lectura en voz alta: lee la sección y los avisos para personas con baja visión (8105.460794ms)
+  page.click: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#boton-accesibilidad')
+  
+      at TestContext.<anonymous> (/home/claude/tienda-ventas/tests/e2e/accesibilidad.test.js:353:18) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#boton-accesibilidad')" ]
+  }
+
+test at tests/e2e/accesibilidad.test.js:369:3
+✖ A11Y-19 [4.1.3] en la venta, el total se anuncia y el error de cantidad queda asociado al campo (8140.823641ms)
+  page.getAttribute: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#venta-total-anuncio')
+  
+      at TestContext.<anonymous> (/home/claude/tienda-ventas/tests/e2e/accesibilidad.test.js:372:31) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#venta-total-anuncio')" ]
+  }

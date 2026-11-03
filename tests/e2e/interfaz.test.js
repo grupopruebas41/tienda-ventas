@@ -107,7 +107,7 @@ describe('E2E: interacción del usuario con la aplicación', { skip: !chromium &
     await evidencia('03-formulario-cliente-lleno');
     await pagina.click('#form-enviar');
     await pagina.waitForSelector('[data-testid="aviso-ok"]');
-    assert.equal(await pagina.textContent('[data-testid="aviso-ok"]'), 'Cliente registrado.');
+    assert.equal(await pagina.textContent('[data-testid="aviso-ok"] .aviso__texto'), 'Cliente registrado.');
     assert.equal(await fila('clientes', 'Ñahui').count(), 1);
     await evidencia('04-cliente-registrado');
   });
@@ -172,7 +172,7 @@ describe('E2E: interacción del usuario con la aplicación', { skip: !chromium &
     await fila('proveedores', 'Molinera Andina').locator('[data-accion="eliminar"]').click();
     await pagina.click('#confirmar-aceptar');
     await pagina.waitForSelector('[data-testid="aviso-error"]');
-    assert.match(await pagina.textContent('[data-testid="aviso-error"]'), /abastece 3 producto/);
+    assert.match(await pagina.textContent('[data-testid="aviso-error"] .aviso__texto'), /abastece 3 producto/);
     assert.equal(await fila('proveedores', 'Molinera Andina').count(), 1);
     await evidencia('07-proveedor-con-productos');
   });

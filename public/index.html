@@ -13,6 +13,8 @@
       href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600&display=swap"
     />
     <link rel="stylesheet" href="/css/styles.css" />
+    <!-- Aplica las preferencias de accesibilidad antes de pintar la página -->
+    <script src="/js/accesibilidad.js"></script>
     <!-- Mismas reglas de validación que usa el servidor -->
     <script src="/shared/validaciones.js" defer></script>
     <script type="module" src="/js/app.js"></script>
@@ -27,7 +29,11 @@
           <span class="marca__nombre">El Mantaro</span>
           <span class="marca__sub">Distribuidora · Huancayo</span>
         </div>
-        <nav>
+        <button type="button" class="boton-accesibilidad" id="boton-accesibilidad" aria-haspopup="dialog" aria-keyshortcuts="Alt+Shift+A">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="4" r="2.2" fill="currentColor"/><path d="M4 8.5c2.6.9 5.3 1.3 8 1.3s5.4-.4 8-1.3M12 9.8V15m0 0-3 6.5M12 15l3 6.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          Accesibilidad
+        </button>
+        <nav aria-label="Secciones">
           <ul class="menu" id="menu">
             <li><a href="#/resumen" data-vista="resumen">Resumen</a></li>
             <li><a href="#/ventas" data-vista="ventas">Ventas</a></li>
@@ -51,6 +57,7 @@
           <h2 id="dialogo-form-titulo">Registro</h2>
           <button type="button" class="boton-icono" data-cerrar aria-label="Cerrar">✕</button>
         </header>
+        <div class="resumen-errores" id="form-resumen-errores" role="alert" tabindex="-1" hidden></div>
         <div class="dialogo__cuerpo" id="form-campos"></div>
         <p class="form-error-general" id="form-error-general" role="alert" hidden></p>
         <footer class="dialogo__pie">
@@ -75,6 +82,72 @@
     <!-- Detalle / registro de venta -->
     <dialog id="dialogo-venta" class="dialogo dialogo--ancho" aria-labelledby="venta-titulo"></dialog>
 
-    <div class="avisos" id="avisos" role="status" aria-live="polite"></div>
+    <!-- Panel de opciones de accesibilidad -->
+    <dialog id="dialogo-accesibilidad" class="dialogo dialogo--panel panel-a11y" aria-labelledby="a11y-titulo" aria-describedby="a11y-descripcion">
+      <header class="dialogo__cabecera">
+        <h2 id="a11y-titulo">Opciones de accesibilidad</h2>
+        <button type="button" class="boton-icono" data-cerrar aria-label="Cerrar opciones de accesibilidad">✕</button>
+      </header>
+      <div class="dialogo__cuerpo dialogo__cuerpo--desplazable">
+        <p id="a11y-descripcion" class="vista__descripcion">Los cambios se aplican al instante y se recuerdan en este equipo.</p>
+
+        <fieldset class="panel-a11y__grupo">
+          <legend>Tamaño del texto</legend>
+          <div class="segmentado">
+            <input type="radio" name="tamano" id="tamano-100" value="100" />
+            <label for="tamano-100">Normal</label>
+            <input type="radio" name="tamano" id="tamano-125" value="125" />
+            <label for="tamano-125">Grande</label>
+            <input type="radio" name="tamano" id="tamano-150" value="150" />
+            <label for="tamano-150">Muy grande</label>
+          </div>
+        </fieldset>
+
+        <fieldset class="panel-a11y__grupo">
+          <legend>Visualización y lectura</legend>
+          <label class="interruptor-fila">
+            <span class="interruptor-fila__texto"><strong>Alto contraste</strong><span>Texto blanco y amarillo sobre fondo negro, para baja visión.</span></span>
+            <input type="checkbox" role="switch" id="pref-contraste" aria-checked="false" />
+          </label>
+          <label class="interruptor-fila">
+            <span class="interruptor-fila__texto"><strong>Más espacio entre letras y líneas</strong><span>Facilita la lectura a personas con dislexia o baja visión.</span></span>
+            <input type="checkbox" role="switch" id="pref-espaciado" aria-checked="false" />
+          </label>
+          <label class="interruptor-fila">
+            <span class="interruptor-fila__texto"><strong>Reducir animaciones</strong><span>Quita los movimientos de ventanas y avisos.</span></span>
+            <input type="checkbox" role="switch" id="pref-movimiento" aria-checked="false" />
+          </label>
+          <label class="interruptor-fila">
+            <span class="interruptor-fila__texto"><strong>Leer avisos en voz alta</strong><span>El sistema dice en voz alta las confirmaciones y los errores.</span></span>
+            <input type="checkbox" role="switch" id="pref-voz" aria-checked="false" />
+          </label>
+        </fieldset>
+
+        <div class="panel-a11y__acciones">
+          <button type="button" class="boton boton--secundario" id="leer-pagina" aria-keyshortcuts="Alt+Shift+L">Leer esta sección en voz alta</button>
+          <button type="button" class="boton boton--secundario" id="restablecer-preferencias">Restablecer opciones</button>
+        </div>
+
+        <h3 class="panel-a11y__grupo">Atajos de teclado</h3>
+        <dl class="atajos">
+          <dt><kbd>Alt</kbd> + <kbd>Mayús</kbd> + <kbd>1</kbd> a <kbd>5</kbd></dt><dd>Ir a Resumen, Ventas, Productos, Clientes o Proveedores</dd>
+          <dt><kbd>Alt</kbd> + <kbd>Mayús</kbd> + <kbd>N</kbd></dt><dd>Nuevo registro en la sección actual</dd>
+          <dt><kbd>Alt</kbd> + <kbd>Mayús</kbd> + <kbd>B</kbd></dt><dd>Ir al cuadro de búsqueda</dd>
+          <dt><kbd>Alt</kbd> + <kbd>Mayús</kbd> + <kbd>L</kbd></dt><dd>Leer la sección en voz alta</dd>
+          <dt><kbd>Alt</kbd> + <kbd>Mayús</kbd> + <kbd>A</kbd></dt><dd>Abrir estas opciones</dd>
+          <dt><kbd>Tab</kbd> / <kbd>Mayús</kbd> + <kbd>Tab</kbd></dt><dd>Avanzar / retroceder entre botones y campos</dd>
+          <dt><kbd>Esc</kbd></dt><dd>Cerrar la ventana abierta</dd>
+        </dl>
+      </div>
+      <footer class="dialogo__pie">
+        <button type="button" class="boton boton--primario" data-cerrar>Listo</button>
+      </footer>
+    </dialog>
+
+    <!-- Avisos visibles (cada aviso tiene su propio rol: status o alert) -->
+    <div class="avisos" id="avisos"></div>
+    <!-- Regiones que leen los lectores de pantalla -->
+    <div id="anunciador" class="solo-lectores" aria-live="polite" aria-atomic="true"></div>
+    <div id="anunciador-urgente" class="solo-lectores" aria-live="assertive" aria-atomic="true"></div>
   </body>
 </html>

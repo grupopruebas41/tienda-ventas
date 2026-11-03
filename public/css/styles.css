@@ -13,7 +13,7 @@
   --maiz: #e2a72e;
   --maiz-tenue: #fdf3dc;
   --maiz-texto: #7a5208;
-  --musgo: #2e7d5b;
+  --musgo: #256b4d; /* DEF-10: antes #2e7d5b (4.36:1) */
   --musgo-tenue: #e3f3ec;
   --rojo: #b63a26;
   --rojo-tenue: #fbe8e4;
@@ -23,6 +23,15 @@
   --gris: #5b6480;
   --borde: #d9dfeb;
   --borde-fuerte: #b9c2d6;
+  --borde-control: #767f99; /* DEF-11: borde de cuadros de texto ≥ 3:1 (antes #b9c2d6, 1.79:1) */
+  --superficie-2: #f7f8fb;
+  --superficie-error: #fffafa;
+  --sobre-oscuro: #ffffff;
+  --lateral-texto: #cfd5ee;
+  --lateral-tenue: #aab2d4;
+  --lateral-hover: rgba(255, 255, 255, 0.08);
+  --peligro-hover: #94301f;
+  --aviso-error-borde: #ff7a63;
 
   --fuente-titulo: 'Archivo', 'Segoe UI', system-ui, sans-serif;
   --fuente-texto: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
@@ -30,7 +39,7 @@
   --radio-s: 4px;
   --radio-m: 8px;
   --sombra-dialogo: 0 24px 60px rgba(20, 28, 60, 0.28);
-  --foco: 0 0 0 3px rgba(176, 36, 90, 0.35);
+  --foco: #b0245a;
 }
 
 *,
@@ -70,9 +79,10 @@ textarea {
   color: inherit;
 }
 
+/* DEF-13: el foco usa outline (visible también en el modo de colores forzados de Windows) */
 :focus-visible {
-  outline: none;
-  box-shadow: var(--foco);
+  outline: 3px solid var(--foco);
+  outline-offset: 2px;
 }
 
 .saltar {
@@ -96,7 +106,7 @@ textarea {
 
 .lateral {
   background: var(--indigo);
-  color: #dfe3f3;
+  color: var(--lateral-texto);
   display: flex;
   flex-direction: column;
   position: sticky;
@@ -127,12 +137,12 @@ textarea {
   font-family: var(--fuente-titulo);
   font-weight: 800;
   font-size: 1.5rem;
-  color: var(--blanco);
+  color: var(--sobre-oscuro);
   letter-spacing: -0.02em;
 }
 .marca__sub {
   font-size: 0.875rem;
-  color: #aab2d4;
+  color: var(--lateral-tenue);
 }
 
 .menu {
@@ -147,18 +157,18 @@ textarea {
   display: block;
   padding: 0.6rem 0.9rem;
   border-radius: var(--radio-m);
-  color: #cfd5ee;
+  color: var(--lateral-texto);
   text-decoration: none;
   font-weight: 500;
   border-left: 3px solid transparent;
 }
 .menu a:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--blanco);
+  background: var(--lateral-hover);
+  color: var(--sobre-oscuro);
 }
 .menu a[aria-current='page'] {
   background: var(--indigo-2);
-  color: var(--blanco);
+  color: var(--sobre-oscuro);
   border-left-color: var(--maiz);
 }
 
@@ -166,7 +176,7 @@ textarea {
   margin-top: auto;
   padding: 1rem 1.5rem;
   font-size: 0.8125rem;
-  color: #8e97bf;
+  color: var(--lateral-tenue);
 }
 
 .contenido {
@@ -212,7 +222,7 @@ textarea {
 .barra__busqueda input {
   width: 100%;
   padding: 0.6rem 0.9rem 0.6rem 2.3rem;
-  border: 1px solid var(--borde-fuerte);
+  border: 1px solid var(--borde-control);
   border-radius: var(--radio-m);
   background: var(--blanco);
 }
@@ -221,21 +231,21 @@ textarea {
   position: absolute;
   left: 0.85rem;
   top: 50%;
-  width: 11px;
-  height: 11px;
-  border: 2px solid var(--gris);
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 0.125rem solid var(--gris);
   border-radius: 50%;
   transform: translateY(-62%);
 }
 .barra__busqueda::after {
   content: '';
   position: absolute;
-  left: 1.55rem;
-  top: 58%;
-  width: 6px;
-  height: 2px;
+  left: 1.5rem;
+  top: 50%;
+  width: 0.4rem;
+  height: 0.125rem;
   background: var(--gris);
-  transform: rotate(45deg);
+  transform: translateY(0.3rem) rotate(45deg);
 }
 .barra__conteo {
   color: var(--gris);
@@ -281,7 +291,7 @@ textarea {
 }
 .boton--secundario {
   background: var(--blanco);
-  border-color: var(--borde-fuerte);
+  border-color: var(--borde-control);
 }
 .boton--secundario:hover:not(:disabled) {
   border-color: var(--indigo);
@@ -291,7 +301,7 @@ textarea {
   color: var(--blanco);
 }
 .boton--peligro:hover:not(:disabled) {
-  background: #94301f;
+  background: var(--peligro-hover);
 }
 .boton--texto {
   background: none;
@@ -344,14 +354,14 @@ td {
 th {
   font-weight: 600;
   color: var(--gris);
-  background: #fafbfd;
+  background: var(--superficie-2);
   font-size: 0.875rem;
 }
 tbody tr:last-child td {
   border-bottom: none;
 }
 tbody tr:hover {
-  background: #fafbfe;
+  background: var(--superficie-2);
 }
 td.numero,
 th.numero {
@@ -424,7 +434,7 @@ td.acciones {
 .cifra:first-child {
   border-left: none;
   background: var(--indigo);
-  color: var(--blanco);
+  color: var(--sobre-oscuro);
   border-radius: var(--radio-m) 0 0 var(--radio-m);
 }
 .cifra__valor {
@@ -442,7 +452,7 @@ td.acciones {
   font-size: 0.9375rem;
 }
 .cifra:first-child .cifra__texto {
-  color: #c4cae6;
+  color: var(--lateral-texto);
 }
 
 .columnas {
@@ -468,6 +478,7 @@ td.acciones {
 /* ---------- Diálogos ---------- */
 .dialogo {
   border: none;
+  background: var(--blanco);
   border-radius: 12px;
   padding: 0;
   width: min(560px, calc(100vw - 2rem));
@@ -548,7 +559,7 @@ td.acciones {
 .campo select,
 .campo textarea {
   padding: 0.55rem 0.75rem;
-  border: 1px solid var(--borde-fuerte);
+  border: 1px solid var(--borde-control);
   border-radius: var(--radio-s);
   background: var(--blanco);
   min-height: 2.5rem;
@@ -560,7 +571,7 @@ td.acciones {
 .campo--error input,
 .campo--error select {
   border-color: var(--rojo);
-  background: #fffafa;
+  background: var(--superficie-error);
 }
 .campo--ok input,
 .campo--ok select {
@@ -593,7 +604,7 @@ td.acciones {
 .segmentado {
   position: relative; /* DEF-09: contiene a los radio ocultos */
   display: inline-flex;
-  border: 1px solid var(--borde-fuerte);
+  border: 1px solid var(--borde-control);
   border-radius: var(--radio-m);
   overflow: hidden;
 }
@@ -616,10 +627,11 @@ td.acciones {
 }
 .segmentado input:checked + label {
   background: var(--indigo);
-  color: var(--blanco);
+  color: var(--sobre-oscuro);
 }
 .segmentado input:focus-visible + label {
-  box-shadow: inset var(--foco);
+  outline: 3px solid var(--foco);
+  outline-offset: -3px;
 }
 
 /* ---------- Venta ---------- */
@@ -638,7 +650,7 @@ td.acciones {
 .lineas input {
   width: 100%;
   padding: 0.45rem 0.6rem;
-  border: 1px solid var(--borde-fuerte);
+  border: 1px solid var(--borde-control);
   border-radius: var(--radio-s);
   background: var(--blanco);
 }
@@ -704,6 +716,10 @@ td.acciones {
 .aviso {
   background: var(--tinta);
   color: var(--blanco);
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  justify-content: space-between;
   padding: 0.8rem 1rem;
   border-radius: var(--radio-m);
   box-shadow: 0 10px 30px rgba(20, 28, 60, 0.25);
@@ -711,7 +727,7 @@ td.acciones {
   animation: aparecer 0.18s ease-out;
 }
 .aviso--error {
-  border-left-color: #ff7a63;
+  border-left-color: var(--aviso-error-borde);
 }
 
 .cargando {
@@ -732,7 +748,7 @@ td.acciones {
   }
   .menu {
     flex-direction: row;
-    overflow-x: auto;
+    flex-wrap: wrap; /* todas las secciones visibles, sin desplazamiento oculto */
     padding: 0 0.5rem 0.75rem;
   }
   .menu a {
@@ -863,4 +879,313 @@ td.numero {
   .lineas td:nth-child(3) {
     width: 5.5rem;
   }
+}
+
+/* =====================================================================
+   ACCESIBILIDAD (WCAG 2.2 AA) — versión 1.1.0
+   ===================================================================== */
+
+/* Texto solo para lectores de pantalla */
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.vista__titulo:focus {
+  outline: none;
+}
+.vista__titulo:focus-visible {
+  outline: 3px solid var(--foco);
+  outline-offset: 4px;
+}
+
+/* Botón de accesibilidad en el menú lateral */
+.boton-accesibilidad {
+  margin: 0 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: var(--radio-m);
+  border: 1px solid var(--lateral-tenue);
+  background: transparent;
+  color: var(--sobre-oscuro);
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 44px;
+}
+.boton-accesibilidad:hover {
+  background: var(--lateral-hover);
+}
+.boton-accesibilidad svg {
+  flex: none;
+}
+
+/* Panel de opciones */
+.panel-a11y__grupo {
+  border: 0;
+  padding: 0;
+  margin: 0 0 1.25rem;
+}
+.panel-a11y__grupo legend {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  padding: 0;
+}
+.panel-a11y .segmentado label {
+  min-width: 5.5rem;
+  text-align: center;
+}
+.panel-a11y .segmentado label[for='tamano-125'] {
+  font-size: 1.15em;
+}
+.panel-a11y .segmentado label[for='tamano-150'] {
+  font-size: 1.3em;
+}
+.interruptor-fila {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--borde);
+  cursor: pointer;
+}
+.interruptor-fila__texto strong {
+  display: block;
+}
+.interruptor-fila__texto span {
+  color: var(--gris);
+  font-size: 0.875rem;
+}
+/* Interruptor (checkbox con role="switch") */
+.interruptor-fila input {
+  appearance: none;
+  flex: none;
+  width: 3rem;
+  height: 1.6rem;
+  border-radius: 999px;
+  background: var(--borde-control);
+  position: relative;
+  cursor: pointer;
+  margin: 0.15rem 0 0;
+  transition: background-color 0.15s;
+}
+.interruptor-fila input::after {
+  content: '';
+  position: absolute;
+  top: 0.2rem;
+  left: 0.2rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background: var(--blanco);
+  transition: transform 0.15s;
+}
+.interruptor-fila input:checked {
+  background: var(--musgo);
+}
+.interruptor-fila input:checked::after {
+  transform: translateX(1.4rem);
+}
+.panel-a11y__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.5rem 0 1rem;
+}
+.atajos {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.35rem 1rem;
+  margin: 0;
+  font-size: 0.9375rem;
+}
+.atajos dt {
+  white-space: nowrap;
+}
+kbd {
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0.05rem 0.4rem;
+  border: 1px solid var(--borde-control);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--superficie-2);
+}
+.dialogo--panel {
+  width: min(520px, calc(100vw - 2rem));
+}
+.dialogo__cuerpo--desplazable {
+  max-height: calc(100vh - 12rem);
+  overflow-y: auto;
+}
+
+/* Resumen de errores del formulario */
+.resumen-errores {
+  margin: 0 1.5rem 0.5rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--rojo);
+  border-radius: var(--radio-s);
+  background: var(--rojo-tenue);
+  color: var(--rojo);
+}
+.resumen-errores p {
+  margin: 0 0 0.35rem;
+  font-weight: 700;
+}
+.resumen-errores ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+.resumen-errores a {
+  color: var(--rojo);
+  font-weight: 600;
+}
+.campo__error:not(:empty)::before {
+  content: '⚠ ';
+}
+
+/* Avisos con botón de cierre */
+.aviso__cerrar {
+  flex: none;
+  border: none;
+  background: transparent;
+  color: inherit;
+  width: 2rem;
+  height: 2rem;
+  margin: -0.35rem -0.4rem -0.35rem 0;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.aviso__cerrar:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ---- Tamaño del texto ---- */
+html[data-tamano='125'] {
+  font-size: 125%;
+}
+html[data-tamano='150'] {
+  font-size: 150%;
+}
+@media (min-width: 901px) {
+  html[data-tamano='125'] .marco,
+  html[data-tamano='150'] .marco {
+    grid-template-columns: minmax(12rem, 15rem) minmax(0, 1fr);
+  }
+}
+/* Con texto grande, los botones pueden partir su texto en dos líneas */
+html[data-tamano='150'] .boton {
+  white-space: normal;
+}
+
+/* ---- Espaciado de texto amplio (WCAG 1.4.12) ---- */
+html[data-espaciado='amplio'] body,
+html[data-espaciado='amplio'] body * {
+  letter-spacing: 0.12em !important;
+  word-spacing: 0.16em !important;
+  line-height: 1.8 !important;
+}
+html[data-espaciado='amplio'] p {
+  margin-bottom: 1.2em;
+}
+
+/* ---- Reducir movimiento ---- */
+html[data-movimiento='reducido'] *,
+html[data-movimiento='reducido'] *::before,
+html[data-movimiento='reducido'] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* ---- Alto contraste (texto ≥ 7:1, WCAG 1.4.6 AAA) ---- */
+:root[data-contraste="alto"] {
+  --indigo: #000000;
+  --indigo-2: #ffffff;
+  --indigo-claro: #000000;
+  --cochinilla: #ffd400;
+  --cochinilla-oscura: #ffe866;
+  --maiz-tenue: #000000;
+  --maiz-texto: #ffd400;
+  --musgo: #7dffb0;
+  --musgo-tenue: #000000;
+  --rojo: #ff9e9e;
+  --rojo-tenue: #000000;
+  --lana: #000000;
+  --blanco: #000000;
+  --tinta: #ffffff;
+  --gris: #e0e0e0;
+  --borde: #ffffff;
+  --borde-fuerte: #ffffff;
+  --borde-control: #ffffff;
+  --superficie-2: #000000;
+  --superficie-error: #000000;
+  --sobre-oscuro: #ffffff;
+  --lateral-texto: #ffffff;
+  --lateral-tenue: #e0e0e0;
+  --lateral-hover: #333333;
+  --peligro-hover: #ffc2c2;
+  --aviso-error-borde: #ff9e9e;
+  --foco: #ffd400;
+}
+:root[data-contraste="alto"] .menu a[aria-current='page'],
+:root[data-contraste="alto"] .segmentado input:checked + label {
+  background: #ffd400;
+  color: #000000;
+}
+:root[data-contraste="alto"] .lateral {
+  border-right: 2px solid #ffffff;
+}
+:root[data-contraste="alto"] .etiqueta {
+  border: 1px solid currentColor;
+}
+:root[data-contraste="alto"] .boton--primario,
+:root[data-contraste="alto"] .boton--peligro {
+  border: 2px solid #ffffff;
+}
+:root[data-contraste="alto"] a:not(.boton) {
+  text-decoration: underline;
+}
+:root[data-contraste="alto"] .aviso {
+  border: 2px solid #000000;
+  outline: 2px solid #ffffff;
+}
+:root[data-contraste="alto"] .tejido {
+  filter: grayscale(1) contrast(1.4);
+}
+:root[data-contraste="alto"] .dialogo::backdrop {
+  background: rgba(40, 40, 40, 0.85);
+}
+
+/* ---- Modo de colores forzados de Windows ---- */
+@media (forced-colors: active) {
+  .boton,
+  .etiqueta,
+  .interruptor-fila input {
+    border: 1px solid ButtonText;
+  }
+  .interruptor-fila input:checked {
+    background: Highlight;
+  }
+}
+
+/* El selector de tamaño se acomoda en varias filas si no cabe (celular con texto grande) */
+.panel-a11y .segmentado {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+.panel-a11y .segmentado label {
+  flex: 1 1 auto;
 }
