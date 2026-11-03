@@ -1,6 +1,6 @@
 {
   "name": "tienda-ventas-el-mantaro",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Sistema web de ventas (clientes, proveedores, productos y ventas) con pruebas de caja negra, caja blanca y unitarias. PA3 Pruebas y Calidad de Software.",
   "main": "src/server.js",
   "private": true,
@@ -16,6 +16,7 @@
     "test:caja-blanca": "node --disable-warning=ExperimentalWarning --test --test-reporter=spec \"tests/caja-blanca/*.test.js\"",
     "test:caja-negra": "node --disable-warning=ExperimentalWarning --test --test-reporter=spec \"tests/caja-negra/*.test.js\"",
     "test:cobertura": "node --disable-warning=ExperimentalWarning --test --experimental-test-coverage --test-coverage-exclude=\"tests/**\" --test-reporter=spec \"tests/unitarias/*.test.js\" \"tests/caja-blanca/*.test.js\" \"tests/caja-negra/*.test.js\"",
+    "test:sonar": "node -e \"require('fs').mkdirSync('coverage',{recursive:true})\" && node --disable-warning=ExperimentalWarning --test --experimental-test-coverage --test-coverage-exclude=\"tests/**\" --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=coverage/lcov.info \"tests/unitarias/*.test.js\" \"tests/caja-blanca/*.test.js\" \"tests/caja-negra/*.test.js\"",
     "test:e2e": "node --disable-warning=ExperimentalWarning --test --test-concurrency=1 --test-reporter=spec \"tests/e2e/*.test.js\""
   },
   "keywords": [

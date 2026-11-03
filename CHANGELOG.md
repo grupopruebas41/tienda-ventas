@@ -2,6 +2,11 @@
 
 Formato basado en *Keep a Changelog* y versionado semántico (MAYOR.MENOR.PARCHE).
 
+## [1.1.1] — 2026-11-03
+### Añadido
+- Integración continua con GitHub Actions: `pruebas.yml` (198 pruebas en cada push) y `sonarqube.yml` (análisis en SonarQube Cloud).
+- `sonar-project.properties` y script `npm run test:sonar`, que genera la cobertura en formato LCOV (`coverage/lcov.info`).
+
 ## [1.1.0] — 2026-11-03
 ### Añadido — accesibilidad (WCAG 2.2 AA)
 - Panel "Accesibilidad": tamaño de texto (100 / 125 / 150 %), alto contraste (≥ 7:1), espaciado de texto amplio,

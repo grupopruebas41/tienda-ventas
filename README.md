@@ -64,6 +64,22 @@ npm run test:e2e
 
 Las pruebas usan una base de datos **en memoria**, así que no modifican `database/tienda.db`.
 
+## GitHub y SonarQube Cloud
+
+1. Crea un repositorio **vacío** en GitHub (sin README) y súbelo desde esta carpeta, sin hacer `git init`:
+   ```bash
+   git remote add origin https://github.com/TU-USUARIO/tienda-ventas.git
+   git push -u origin --all
+   git push origin --tags
+   ```
+2. En https://sonarcloud.io entra con GitHub, importa el repositorio y elige el análisis **con GitHub Actions**
+   (no el automático: el automático no muestra cobertura).
+3. En GitHub: *Settings → Secrets and variables → Actions → New repository secret* → `SONAR_TOKEN` con el token que da SonarQube Cloud.
+4. Escribe en `sonar-project.properties` tu `sonar.organization` y `sonar.projectKey`, haz commit y push.
+   El flujo `.github/workflows/sonarqube.yml` ejecuta las pruebas, genera `coverage/lcov.info` y envía el análisis.
+
+Para generar la cobertura en tu equipo: `npm run test:sonar`.
+
 ## Estructura
 
 ```
@@ -99,6 +115,8 @@ tienda-ventas/
 │   ├── registro-de-defectos.md
 │   ├── solicitudes-de-cambio.md
 │   └── evidencias/           # Capturas y salidas de consola de las pruebas
+├── .github/workflows/        # pruebas.yml y sonarqube.yml (GitHub Actions)
+├── sonar-project.properties  # configuración de SonarQube Cloud
 ├── CHANGELOG.md
 └── package.json
 ```

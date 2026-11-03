@@ -1,0 +1,30 @@
+# Análisis de calidad con SonarQube Cloud en cada push a main y en cada pull request.
+# Requiere el secreto SONAR_TOKEN (GitHub > Settings > Secrets and variables > Actions).
+name: SonarQube
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sonarqube:
+    name: Pruebas, cobertura y análisis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # historial completo para que SonarQube atribuya bien los cambios
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Pruebas unitarias, de caja blanca y de caja negra + cobertura LCOV
+        run: npm run test:sonar
+
+      - name: Análisis con SonarQube Cloud
+        uses: SonarSource/sonarqube-scan-action@v7
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

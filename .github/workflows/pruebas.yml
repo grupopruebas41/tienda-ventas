@@ -1,0 +1,28 @@
+# Ejecuta toda la suite en cada push y pull request (prueba de regresión continua).
+name: Pruebas
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pruebas:
+    name: Unitarias, caja blanca, caja negra, E2E y accesibilidad
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Pruebas unitarias, de caja blanca y de caja negra (160)
+        run: npm test
+
+      - name: Instalar Playwright y Chromium
+        run: |
+          npm install
+          npx playwright install --with-deps chromium
+
+      - name: Pruebas E2E de interfaz y de accesibilidad (38)
+        run: npm run test:e2e
