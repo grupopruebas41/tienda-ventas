@@ -15,5 +15,6 @@ completa (prueba de regresión) y luego se integró a `main`.
 | SC-07 | Hacer el sistema usable por personas con discapacidad (nuevo requisito RF-12 / RNF-09) | Solicitud del usuario: la tienda tiene personal con discapacidad | Alto: HTML, CSS, 6 archivos JS, nuevas pruebas | Aprobado | Rama `feature/accesibilidad` | 18 PU-A11Y + 21 A11Y + regresión completa | 1.1.0 |
 | SC-08 | Corregir fallas de accesibilidad de la auditoría | DEF-10 a DEF-16 | Medio: CSS, enrutador, componentes | Aprobado | Rama `feature/accesibilidad` | A11Y-02 a A11Y-12, PU-A11Y-09 y 15 | 1.1.0 |
 | SC-09 | Corregir defectos del código nuevo | DEF-17 a DEF-19 | Bajo | Aprobado | Rama `feature/accesibilidad` | A11Y-10, E2E-04, A11Y-21 | 1.1.0 |
+| SC-10 | Corregir las 9 observaciones de SonarQube (promesas sin manejar y prueba sin aserciones) | Análisis de SonarQube | Bajo: `crud.js`, `ventas.js` y una prueba E2E | Aprobado | Rama `fix/sonarqube` | 198 pruebas (160 + 38 E2E) y 0 issues en SonarQube | 1.1.2 |
 
 Para ver el historial completo: `git log --oneline --graph --all` y `git tag`.
