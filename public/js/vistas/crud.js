@@ -103,14 +103,16 @@ export function crearVistaCrud(cfg) {
       const boton = e.target.closest('[data-accion]');
       if (!boton) return;
       const registro = estado.registros.find((r) => r.id === Number(boton.dataset.id));
-      if (boton.dataset.accion === 'nuevo') abrir(null);
-      if (boton.dataset.accion === 'editar' && registro) abrir(registro);
-      if (boton.dataset.accion === 'eliminar' && registro) eliminar(registro);
+      // abrir() consulta la API (campos con listas); si falla, se avisa al usuario
+      if (boton.dataset.accion === 'nuevo') abrir(null).catch((error) => avisar(error.message, 'error'));
+      if (boton.dataset.accion === 'editar' && registro) abrir(registro).catch((error) => avisar(error.message, 'error'));
+      // eliminar() ya muestra sus errores con avisar(); se ignora la promesa a propósito
+      if (boton.dataset.accion === 'eliminar' && registro) void eliminar(registro);
     });
 
     const buscar = retrasar((texto) => {
       estado.busqueda = texto.trim();
-      cargar();
+      void cargar(); // cargar() maneja sus errores dentro (try/catch)
     });
     contenedor.querySelector('[data-testid="buscar"]').addEventListener('input', (e) => buscar(e.target.value));
 
@@ -119,7 +121,7 @@ export function crearVistaCrud(cfg) {
         const filtro = cfg.filtros.find((f) => f.nombre === casilla.dataset.filtro);
         if (casilla.checked) estado.filtros[filtro.parametro] = '1';
         else delete estado.filtros[filtro.parametro];
-        cargar();
+        void cargar(); // cargar() maneja sus errores dentro (try/catch)
       });
     });
 

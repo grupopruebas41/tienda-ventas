@@ -79,13 +79,15 @@ export async function vistaVentas(contenedor) {
     }
   }
 
-  contenedor.addEventListener('click', async (e) => {
+  contenedor.addEventListener('click', (e) => {
     const boton = e.target.closest('[data-accion]');
     if (!boton) return;
     const venta = estado.ventas.find((v) => v.id === Number(boton.dataset.id));
-    if (boton.dataset.accion === 'nueva') abrirNuevaVenta(cargar);
-    if (boton.dataset.accion === 'ver' && venta) verVenta(venta.id, anular);
-    if (boton.dataset.accion === 'anular' && venta) anular(venta);
+    // abrirNuevaVenta() y verVenta() consultan la API; si falla, se avisa al usuario
+    if (boton.dataset.accion === 'nueva') abrirNuevaVenta(cargar).catch((error) => avisar(error.message, 'error'));
+    if (boton.dataset.accion === 'ver' && venta) verVenta(venta.id, anular).catch((error) => avisar(error.message, 'error'));
+    // anular() ya muestra sus errores con avisar(); se ignora la promesa a propósito
+    if (boton.dataset.accion === 'anular' && venta) void anular(venta);
   });
 
   await cargar();
