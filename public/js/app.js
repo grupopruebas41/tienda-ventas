@@ -12,7 +12,9 @@ const VISTAS = {
   proveedores: { montar: vistaProveedores, titulo: 'Proveedores' },
 };
 
-async function navegar() {
+async function navegar({ moverFoco = false } = {}) {
+  // DEF-12: un hash que no es de ruta (como #contenido del enlace "Saltar al contenido") no cambia la sección
+  if (location.hash && !location.hash.startsWith('#/')) return;
   const nombre = location.hash.replace('#/', '') || 'resumen';
   const vista = VISTAS[nombre] || VISTAS.resumen;
   const principal = document.getElementById('contenido');
@@ -27,18 +29,26 @@ async function navegar() {
   document.title = `${vista.titulo} · El Mantaro`;
 
   // Contenedor nuevo para que los eventos de la vista anterior no se acumulen
+  const focoAlNavegar = document.activeElement;
   const contenedor = document.createElement('div');
   contenedor.dataset.vista = nombre;
   principal.replaceChildren(contenedor);
   try {
     await vista.montar(contenedor);
+    const titulo = contenedor.querySelector('.vista__titulo');
+    if (titulo) titulo.setAttribute('tabindex', '-1');
+    // Solo se mueve el foco si la persona no lo movió mientras cargaba la sección
+    const focoSinCambio = document.activeElement === focoAlNavegar || document.activeElement === document.body;
+    if (moverFoco && focoSinCambio) {
+      // DEF-16: el foco va al título y el lector de pantalla anuncia la nueva sección
+      titulo?.focus();
+      const conteo = contenedor.querySelector('[data-testid="conteo"]')?.textContent;
+      window.Accesibilidad?.anunciar(`Sección ${vista.titulo}${conteo ? `, ${conteo}` : ''}.`);
+    }
   } catch (error) {
     contenedor.innerHTML = `<div class="vacio"><strong>No se pudo abrir ${esc(vista.titulo)}.</strong>${esc(error.message)}</div>`;
   }
 }
 
-window.addEventListener('hashchange', () => {
-  navegar();
-  document.getElementById('contenido').focus({ preventScroll: true });
-});
-window.addEventListener('DOMContentLoaded', navegar);
+window.addEventListener('hashchange', () => navegar({ moverFoco: true }));
+window.addEventListener('DOMContentLoaded', () => navegar());

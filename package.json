@@ -1,6 +1,6 @@
 {
   "name": "tienda-ventas-el-mantaro",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Sistema web de ventas (clientes, proveedores, productos y ventas) con pruebas de caja negra, caja blanca y unitarias. PA3 Pruebas y Calidad de Software.",
   "main": "src/server.js",
   "private": true,

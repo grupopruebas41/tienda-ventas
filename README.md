@@ -12,6 +12,20 @@ de **pruebas unitarias, de caja blanca, de caja negra y de extremo a extremo (E2
 | Base de datos | SQLite (`node:sqlite`, integrado en Node.js) — archivo `database/tienda.db` |
 | Pruebas | `node:test` + `node:assert` (unitarias, caja blanca, caja negra) y Playwright (E2E) |
 
+## Accesibilidad
+
+El sistema cumple los criterios de **WCAG 2.2 nivel AA** que se prueban en `tests/e2e/accesibilidad.test.js`
+y `tests/unitarias/contraste.test.js`. En el menú lateral, el botón **Accesibilidad** (o `Alt + Mayús + A`) permite:
+
+- Cambiar el tamaño del texto (Normal, Grande, Muy grande).
+- Activar **alto contraste** (texto blanco y amarillo sobre negro).
+- Aumentar el espacio entre letras y líneas (dislexia, baja visión).
+- Reducir animaciones.
+- **Leer en voz alta** la sección y los avisos.
+
+Atajos de teclado: `Alt + Mayús + 1…5` (secciones), `N` (nuevo registro), `B` (buscar), `L` (leer en voz alta).
+Funciona con lectores de pantalla (NVDA, JAWS, TalkBack): anuncia la sección, los errores y los avisos.
+
 ## Requisitos
 
 - **Node.js 22.13 o superior** (recomendado Node.js 24 LTS). Verifica con `node -v`.
@@ -36,13 +50,13 @@ Para usar otro puerto: `PUERTO=4000 npm start` (en Windows PowerShell: `$env:PUE
 ## Cómo ejecutar las pruebas
 
 ```bash
-npm test                  # unitarias + caja blanca + caja negra (142 casos)
-npm run test:unitarias    # 40 casos
+npm test                  # unitarias + caja blanca + caja negra (160 casos)
+npm run test:unitarias    # 58 casos (incluye 18 de contraste de colores)
 npm run test:caja-blanca  # 35 casos
 npm run test:caja-negra   # 67 casos
 npm run test:cobertura    # todo lo anterior + reporte de cobertura de código
 
-# Pruebas E2E de la interfaz (17 casos) — requiere instalar Playwright una vez:
+# Pruebas E2E de la interfaz (17) y de accesibilidad (21) — requiere instalar Playwright una vez:
 npm install
 npx playwright install chromium
 npm run test:e2e
@@ -62,6 +76,7 @@ tienda-ventas/
 │   ├── css/styles.css
 │   └── js/
 │       ├── app.js            # Enrutador por hash (#/clientes)
+│       ├── accesibilidad.js  # Preferencias, voz, anuncios y atajos de teclado
 │       ├── api.js            # Cliente HTTP (fetch)
 │       ├── ui.js             # Formulario modal, confirmación, avisos, tablas
 │       └── vistas/           # resumen, ventas, clientes, proveedores, productos
@@ -78,7 +93,7 @@ tienda-ventas/
 │   ├── unitarias/            # PU-xx  funciones aisladas y servicios con dobles de prueba
 │   ├── caja-blanca/          # CB-xx  caminos independientes y ramas (complejidad ciclomática)
 │   ├── caja-negra/           # CN-xx  partición de equivalencia y valores límite sobre la API
-│   └── e2e/                  # E2E-xx navegador real: botones, cuadros de texto, listas y eventos
+│   └── e2e/                  # E2E-xx interfaz y A11Y-xx accesibilidad, con navegador real
 ├── docs/
 │   ├── Informe_PA3_Pruebas_Software.docx
 │   ├── registro-de-defectos.md

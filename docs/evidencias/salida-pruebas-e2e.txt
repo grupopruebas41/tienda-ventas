@@ -1,27 +1,50 @@
+▶ Accesibilidad (WCAG 2.2 AA)
+  ✔ A11Y-01 [4.1.2] todos los botones, enlaces y campos tienen nombre accesible (1029.298157ms)
+  ✔ A11Y-02 [1.3.1, 3.3.2] los campos obligatorios se anuncian como obligatorios (211.135667ms)
+  ✔ A11Y-03 [1.3.5] los campos de datos personales indican su propósito (autocomplete) (155.94893ms)
+  ✔ A11Y-04 [3.3.1, 4.1.3] al enviar con errores se anuncia un resumen con enlaces a cada campo (878.941347ms)
+  ✔ A11Y-05 [4.1.3] los avisos se anuncian: confirmaciones como estado y errores como alerta (1042.728114ms)
+  ✔ A11Y-06 [1.3.1] las tablas tienen título (caption) y encabezados de columna (511.585217ms)
+  ✔ A11Y-07 [2.4.3, 4.1.3] al cambiar de sección el foco va al título y se anuncia la sección (312.559898ms)
+  ✔ A11Y-08 [2.1.1] registrar un cliente usando solo el teclado (287.374053ms)
+  ✔ A11Y-09 [2.4.3] al cerrar un diálogo el foco vuelve al botón que lo abrió (174.184462ms)
+  ✔ A11Y-10 [2.1.1, 2.1.4] atajos de teclado: Alt+Shift+número, N (nuevo) y B (buscar) (191.508773ms)
+  ✔ A11Y-11 [2.4.7, 1.4.11] el foco es visible también en el modo de colores forzados de Windows (186.373077ms)
+  ✔ A11Y-12 [2.2.1] los avisos de error no desaparecen solos y se pueden cerrar (7535.168556ms)
+  ✔ A11Y-13 [1.4.4, 1.4.10] texto al 150 %: todo se agranda y no aparece desplazamiento horizontal (2396.337665ms)
+  ✔ A11Y-14 [1.4.6] alto contraste: el texto alcanza al menos 7:1 (1253.053591ms)
+  ✔ A11Y-15 las preferencias se recuerdan al volver a abrir el sistema (585.237132ms)
+  ✔ A11Y-16 [1.4.12] espaciado de texto amplio sin cortar contenido (658.175938ms)
+  ✔ A11Y-17 [2.3.3] reducir movimiento desactiva las animaciones (511.894175ms)
+  ✔ A11Y-18 lectura en voz alta: lee la sección y los avisos para personas con baja visión (312.37094ms)
+  ✔ A11Y-19 [4.1.3] en la venta, el total se anuncia y el error de cantidad queda asociado al campo (238.044301ms)
+  ✔ A11Y-20 [2.5.8] los botones tienen un área táctil de al menos 24 × 24 px (311.578345ms)
+  ✔ A11Y-21 [1.4.10] regresión DEF-18: el panel de accesibilidad cabe en un celular con texto muy grande (927.053785ms)
+✔ Accesibilidad (WCAG 2.2 AA) (19957.283999ms)
 ▶ E2E: interacción del usuario con la aplicación
-  ✔ E2E-01 el menú lateral navega entre las secciones y marca la activa (472.395172ms)
-  ✔ E2E-02 validación en tiempo real: los mensajes aparecen al escribir y desaparecen al corregir (246.437701ms)
-  ✔ E2E-03 enviar el formulario vacío no llama al servidor y enfoca el primer error (484.051357ms)
-  ✔ E2E-04 registrar cliente: aparece en la lista y se muestra el aviso de confirmación (382.537689ms)
-  ✔ E2E-05 al elegir RUC cambia la ayuda y el límite del cuadro de texto (evento change) (149.297949ms)
-  ✔ E2E-06 un documento duplicado muestra el error del servidor en el campo (462.234778ms)
-  ✔ E2E-07 la búsqueda filtra la lista mientras se escribe (evento input) (719.891606ms)
-  ✔ E2E-08 editar cliente actualiza la fila (456.264236ms)
-  ✔ E2E-09 eliminar pide confirmación: Cancelar conserva el registro, Eliminar lo quita (719.732439ms)
-  ✔ E2E-10 no se puede eliminar un proveedor con productos: se informa el motivo (427.230291ms)
-  ✔ E2E-11 registrar proveedor y producto; el filtro "Solo stock bajo" lo muestra (1075.396943ms)
-  ✔ E2E-12 nueva venta: totales en vivo, regla de factura y registro con descuento de stock (770.540482ms)
-  ✔ E2E-13 anular venta desde el detalle repone el stock (897.158478ms)
-  ✔ E2E-14 seguridad: un nombre con HTML se muestra como texto (sin ejecutar script) (793.384512ms)
-  ✔ E2E-15 diseño responsivo: en celular (390 px) no hay desplazamiento horizontal (618.454882ms)
-  ✔ E2E-16 regresión DEF-01: al cambiar de sección se cierra el formulario abierto (264.321797ms)
-  ✔ E2E-17 regresión DEF-09: el diálogo de venta no se desplaza con nombres largos (197.533781ms)
-✔ E2E: interacción del usuario con la aplicación (9365.934876ms)
-ℹ tests 17
-ℹ suites 1
-ℹ pass 17
+  ✔ E2E-01 el menú lateral navega entre las secciones y marca la activa (800.086424ms)
+  ✔ E2E-02 validación en tiempo real: los mensajes aparecen al escribir y desaparecen al corregir (632.178222ms)
+  ✔ E2E-03 enviar el formulario vacío no llama al servidor y enfoca el primer error (484.953012ms)
+  ✔ E2E-04 registrar cliente: aparece en la lista y se muestra el aviso de confirmación (1077.895914ms)
+  ✔ E2E-05 al elegir RUC cambia la ayuda y el límite del cuadro de texto (evento change) (215.821573ms)
+  ✔ E2E-06 un documento duplicado muestra el error del servidor en el campo (819.526315ms)
+  ✔ E2E-07 la búsqueda filtra la lista mientras se escribe (evento input) (710.775779ms)
+  ✔ E2E-08 editar cliente actualiza la fila (473.832246ms)
+  ✔ E2E-09 eliminar pide confirmación: Cancelar conserva el registro, Eliminar lo quita (903.068804ms)
+  ✔ E2E-10 no se puede eliminar un proveedor con productos: se informa el motivo (826.817509ms)
+  ✔ E2E-11 registrar proveedor y producto; el filtro "Solo stock bajo" lo muestra (1598.82463ms)
+  ✔ E2E-12 nueva venta: totales en vivo, regla de factura y registro con descuento de stock (1879.727127ms)
+  ✔ E2E-13 anular venta desde el detalle repone el stock (1067.433801ms)
+  ✔ E2E-14 seguridad: un nombre con HTML se muestra como texto (sin ejecutar script) (824.506882ms)
+  ✔ E2E-15 diseño responsivo: en celular (390 px) no hay desplazamiento horizontal (1019.157983ms)
+  ✔ E2E-16 regresión DEF-01: al cambiar de sección se cierra el formulario abierto (269.607863ms)
+  ✔ E2E-17 regresión DEF-09: el diálogo de venta no se desplaza con nombres largos (226.033604ms)
+✔ E2E: interacción del usuario con la aplicación (14060.040017ms)
+ℹ tests 38
+ℹ suites 2
+ℹ pass 38
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 9672.965455
+ℹ duration_ms 34631.184209
