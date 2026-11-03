@@ -2,7 +2,8 @@
 
 const { AppError } = require('../errores');
 const { validarProveedor, aTexto } = require('../shared/validaciones');
-const { validarId, textoOpcional } = require('./comun');
+const { textoOpcional } = require('./comun');
+const { crearServicioCrud } = require('./crudServicio');
 
 function normalizar(datos) {
   return {
@@ -16,56 +17,21 @@ function normalizar(datos) {
 }
 
 function crearProveedoresServicio(repositorio) {
-  function obtenerExistente(id) {
-    const proveedor = repositorio.obtener(validarId(id));
-    if (!proveedor) throw AppError.noEncontrado('El proveedor');
-    return proveedor;
-  }
-
-  function validarYNormalizar(datos, idActual) {
-    const { valido, errores } = validarProveedor(datos);
-    if (!valido) throw AppError.validacion(errores);
-    const proveedor = normalizar(datos);
-    const duplicado = repositorio.buscarPorRuc(proveedor.ruc);
-    if (duplicado && duplicado.id !== idActual) {
-      throw AppError.conflicto('Ya existe un proveedor con ese RUC.', {
+  return crearServicioCrud({
+    repositorio,
+    nombreEntidad: 'El proveedor',
+    validar: validarProveedor,
+    normalizar,
+    buscarDuplicado: (proveedor) => repositorio.buscarPorRuc(proveedor.ruc),
+    errorDuplicado: (proveedor) =>
+      AppError.conflicto('Ya existe un proveedor con ese RUC.', {
         ruc: `El RUC ${proveedor.ruc} ya está registrado.`,
-      });
-    }
-    return proveedor;
-  }
-
-  return {
-    listar(busqueda) {
-      return repositorio.listar(aTexto(busqueda));
-    },
-
-    obtener(id) {
-      return obtenerExistente(id);
-    },
-
-    crear(datos) {
-      return repositorio.crear(validarYNormalizar(datos || {}, null));
-    },
-
-    actualizar(id, datos) {
-      const existente = obtenerExistente(id);
-      return repositorio.actualizar(existente.id, validarYNormalizar(datos || {}, existente.id));
-    },
-
-    eliminar(id) {
-      const existente = obtenerExistente(id);
-      const productos = repositorio.contarProductos(existente.id);
-      if (productos > 0) {
-        throw AppError.conflicto(
-          `No se puede eliminar a ${existente.razon_social}: abastece ${productos} producto(s). ` +
-            'Reasigna o elimina esos productos primero.'
-        );
-      }
-      repositorio.eliminar(existente.id);
-      return existente;
-    },
-  };
+      }),
+    contarDependencias: (id) => repositorio.contarProductos(id),
+    mensajeDependencias: (proveedor, productos) =>
+      `No se puede eliminar a ${proveedor.razon_social}: abastece ${productos} producto(s). ` +
+      'Reasigna o elimina esos productos primero.',
+  });
 }
 
 module.exports = { crearProveedoresServicio };
